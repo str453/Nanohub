@@ -11,11 +11,7 @@
     "mongoose": "^8.18.2",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
-<<<<<<< HEAD
-    "react-router-dom": "^7.9.3",
-=======
     "react-router-dom": "^7.9.1",
->>>>>>> 2d34bab4f2ba5977cafcecc3051e6bb0bafbc760
     "react-scripts": "^5.0.1",
     "sass": "^1.93.1",
     "web-vitals": "^2.1.4"
