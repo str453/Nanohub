@@ -61,7 +61,7 @@ const productSchema = new mongoose.Schema({
         }
     }
 }, {
-    timestampts: true
+    timestamps: true
 });
 
 productSchema.index({ name: 'text', description: 'text' });
