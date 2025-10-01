@@ -23,14 +23,15 @@ const importGPUs = async () => {
         .pipe(csv())
         .on('data', (row) =>{
             const price = parseFloat(row.Price.replace('$', '').replace('USD', '')) || 0;
+            const stockQuantity = Math.floor(Math.random() * 31);
             const product = {
                 name: row.Name,
                 description: `${row.Producer} Graphics Processing Unit`,
                 price: price,
                 category: 'GPU',
                 brand: row.Producer,
-                stockQuantity: Math.floor(Math.random() * 31),
-                inStock: true,
+                stockQuantity: stockQuantity,
+                inStock: stockQuantity > 0,
                 images: []
             };
 

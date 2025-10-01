@@ -23,14 +23,15 @@ const importMonitors = async() => {
         .pipe(csv())
         .on('data', (row) => {
             const price = parseFloat(row.Price.replace('$', '').replace('USD', '')) || 0;
+            const stockQuantity = Math.floor(Math.random() * 51);
             const product = {
             name: row.Name,
             description: `${row.Producer} Monitor`,
             price: price,
             category: 'Monitor',
             brand: row.Producer,
-            stockQuantity: Math.floor(Math.random() * 31),
-            inStock: true,
+            stockQuantity: stockQuantity,
+            inStock: stockQuantity > 0,
             images: []
             };
 

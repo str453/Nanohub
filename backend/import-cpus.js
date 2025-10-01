@@ -19,19 +19,21 @@ const connectDB = async () => {
 const importCPUs = async () => {
     await connectDB();
 
+    
     const products = [];
     fs.createReadStream('csvFiles/CPU.csv')
         .pipe(csv())
         .on('data', (row) => {
             const price = parseFloat(row.Price.replace('$', '').replace('USD', '')) || 0;
+            const stockQuantity = Math.floor(Math.random() * 31);
             const product = {
                 name: row.Name,
                 description: `${row.Producer} Central Processing Unit`,
                 price: price,
                 category: 'CPU',
                 brand: row.Producer,
-                stockQuantity: Math.floor(Math.random() * 31),
-                inStock: true,
+                stockQuantity: stockQuantity,
+                inStock: stockQuantity > 0,
                 images: []
             };
 
