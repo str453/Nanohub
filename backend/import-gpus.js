@@ -29,7 +29,7 @@ const importGPUs = async () => {
                 price: price,
                 category: 'GPU',
                 brand: row.Producer,
-                StockQuantity: Math.floor(Math.random() * 31),
+                stockQuantity: Math.floor(Math.random() * 31),
                 inStock: true,
                 images: []
             };
