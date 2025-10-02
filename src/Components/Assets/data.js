@@ -1,33 +1,33 @@
-import p1_img from './product_1.png'
-import p2_img from './product_2.png'
-import p3_img from './product_3.png'
-import p4_img from './product_4.png'
+import p1_img from './product_1.jpg'
+import p2_img from './product_2.jpg'
+import p3_img from './product_3.jpg'
+import p4_img from './product_4.jpg'
 
 let data_product = [
   {
     id:1,
-    name:"Striped Flutter Sleeve Overlap Collar Peplum Hem Blouse",
+    name:"PowerSpec G725 Gaming PC",
     image:p1_img,
-    new_price:50.00,
-    old_price:80.50,
+    new_price:1299.99,
+    old_price:1899.99,
   },
   {id:2,
-    name:"Striped Flutter Sleeve Overlap Collar Peplum Hem Blouse",
+    name:"Intel Core i7-14799K Raptor Lake-S Refresh 3.4GHz Twenty-Core LGA 1799 Boxed Processor - Heatsink Not Included",
     image:p2_img,
-    new_price:85.00,
-    old_price:120.50,
+    new_price:299.99,
+    old_price:499.99,
   },
   {id:3,
-    name:"Striped Flutter Sleeve Overlap Collar Peplum Hem Blouse",
+    name:"MSI Raider 18 HX AI A2XWIG-418US 18in Gaming Laptop Computer - Core Black",
     image:p3_img,
-    new_price:60.00,
-    old_price:100.50,
+    new_price:2699.99,
+    old_price:3399.99,
   },
   {id:4,
-    name:"Striped Flutter Sleeve Overlap Collar Peplum Hem Blouse",
+    name:"PNY NVIDIA GeForce RTX 5080 EPIC-X RGB Overclocked Triple Fan 16GB GDDR7 PCIe 5.0 Graphics Card",
     image:p4_img,
-    new_price:100.00,
-    old_price:150.00,
+    new_price:1099.99,
+    old_price:1199.99,
   },
 ];
 
