@@ -25,14 +25,14 @@ const importRAM = async() => {
             const price = parseFloat(row.Price.replace('$', '').replace('USD', '')) || 0;
             const stockQuantity = Math.floor(Math.random() * 61);
             const product = {
-            name: row.Name,
-            description: `${row.Producer} RAM`,
-            price: price,
-            category: 'RAM',
-            brand: row.Producer,
-            stockQuantity: stockQuantity,
-            inStock: stockQuantity > 0,
-            images: []
+                name: row.Name,
+                description: `${row.Producer} RAM`,
+                price: price,
+                category: 'RAM',
+                brand: row.Producer,
+                stockQuantity: stockQuantity,
+                inStock: stockQuantity > 0,
+                images: []
             };
 
             // specification for RAM
