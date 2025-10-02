@@ -21,7 +21,7 @@ const productSchema = new mongoose.Schema({
         type: String,
         required: [true, 'Product category is required'],
         enum: {
-            values: ['CPU', 'GPU', 'Motherboard', 'Storage', 'PSU', 'Cooling', 'Case', 'Accessories'],
+            values: ['CPU', 'GPU', 'Motherboard', 'Storage', 'PSU', 'Cooling', 'Case', 'RAM', 'Monitor' ,'Accessories'],
             message: 'Please select a valid category'
         }
     },
@@ -61,7 +61,7 @@ const productSchema = new mongoose.Schema({
         }
     }
 }, {
-    timestampts: true
+    timestamps: true
 });
 
 productSchema.index({ name: 'text', description: 'text' });
