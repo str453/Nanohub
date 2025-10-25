@@ -38,7 +38,7 @@ import p36_img from "./product_36.png";
 let all_product = [
   {
     id: 1,
-    name: "Striped Flutter Sleeve Overlap Collar Peplum Hem Blouse",
+    name: "Apple Series 6 Watch",
     category: "apple",
     image: p1_img,
     new_price: 50.0,
@@ -46,7 +46,7 @@ let all_product = [
   },
   {
     id: 2,
-    name: "Striped Flutter Sleeve Overlap Collar Peplum Hem Blouse",
+    name: "MacBook Pro Max 2TB Storage 24in. screen",
     category: "apple",
     image: p2_img,
     new_price: 85.0,
@@ -54,7 +54,7 @@ let all_product = [
   },
   {
     id: 3,
-    name: "Striped Flutter Sleeve Overlap Collar Peplum Hem Blouse",
+    name: "iPhone 17 Pro 256GB Black, Silver, White, Gray",
     category: "apple",
     image: p3_img,
     new_price: 60.0,
