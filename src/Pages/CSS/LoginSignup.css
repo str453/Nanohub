@@ -48,6 +48,7 @@
 }
 .loginsignup-login span{
     color: #ff4141;
+    cursor: pointer;
     font-weight: 600;
 }
 .loginsignup-agree{
@@ -58,4 +59,27 @@
     color: #5c5c5c;
     font-size: 18px;
     font-weight: 500;
+}
+
+.error-message{
+    background-color: #c9c9c9;
+    color: #ff4141;
+    padding: 9px;
+    border-radius: 4px;
+    margin-bottom: 15px;
+    border: 1px solid #ffcdd2;
+}
+
+.success-message{
+    background-color: #c9c9c9;
+    color: #2e7d32;
+    padding: 9px;
+    border-radius: 4px;
+    margin-bottom: 15px;
+    border: 1px solid #c8efc9
+}
+
+button:disabled{
+    background-color: #c9c9c9;
+    cursor: not-allowed;
 }
