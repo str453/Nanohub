@@ -1,3 +1,7 @@
+/* 
+Functional Requirement #1 - Home Page
+*/
+
 import React from 'react'
 import Hero from '../Components/Hero/Hero'
 import Popular from '../Components/Popular/Popular'

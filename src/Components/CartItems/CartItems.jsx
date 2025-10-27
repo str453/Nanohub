@@ -1,3 +1,8 @@
+/* 
+Functional Requirement #8-11 Shopping Cart
+Functional Requirement #16 Checkout
+*/
+
 import React, { useContext } from 'react'
 import './CartItems.css'
 import { ShopContext } from './../../Context/ShopContext';

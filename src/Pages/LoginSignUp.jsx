@@ -1,3 +1,7 @@
+/* 
+Functional Requirement #2-4 Login Page
+*/
+
 import React from 'react'
 import './CSS/LoginSignup.css'
 
