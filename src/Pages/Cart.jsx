@@ -1,3 +1,7 @@
+/* 
+Functional Requirement #8-11 Shopping Cart
+*/
+
 import React from 'react'
 import CartItems from '../Components/CartItems/CartItems'
 

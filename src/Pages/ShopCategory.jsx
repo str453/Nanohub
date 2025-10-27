@@ -1,3 +1,7 @@
+/* 
+Functional Requirement #6-7 Viewing Product Details
+*/
+
 import React, { useContext } from 'react'
 import './CSS/ShopCategory.css'
 import { ShopContext } from '../Context/ShopContext';

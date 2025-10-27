@@ -1,3 +1,7 @@
+/* 
+Functional Requirement #18 - Popular Items
+*/
+
 import React from 'react'
 import './Popular.css'
 import data_product from '../Assets/data'
