@@ -2,7 +2,6 @@
 Functional Requirement #2-4 Login Page
 */
 
-import React from 'react'
 import React, {useState} from 'react'
 import {authAPI} from '../services/api';
 import './CSS/LoginSignup.css'
