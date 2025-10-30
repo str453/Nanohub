@@ -6,6 +6,7 @@ import Shop from './Pages/Shop'
 import ShopCategory from './Pages/ShopCategory'
 import Product from './Pages/Product'
 import Cart from './Pages/Cart'
+import Chat from './Pages/Chat';
 import LoginSignUp from './Pages/LoginSignUp'
 import Footer from './Components/Footer/Footer'
 import pc_part_banner from './Components/Assets/banner_mens.png'
@@ -28,6 +29,7 @@ function App() {
         </Route>
         <Route path='/cart' element={<Cart/>}/>
         <Route path='/login' element={<LoginSignUp/>}/>
+        <Route path='/chat' element={<Chat/>}/>
       </Routes>
       <Footer/>
       </AuthProvider>
