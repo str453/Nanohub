@@ -16,8 +16,10 @@ app.use(cors({
 app.use(express.json());
 
 const product_routes = require('./routes/product.js');
+const auth_routes = require('./routes/auth.js');
 
 app.use('/api/product', product_routes);
+app.use('/api/auth', auth_routes);
 
 app.get('/', (req, res) => {
   res.json({
@@ -25,6 +27,14 @@ app.get('/', (req, res) => {
     endpoints: {
       product: '/api/product',
       product_number: '/api/product/:number',
+    },
+    auth: {
+      register: 'POST /api/auth/register',
+      login: 'POST /api/auth/login'
+    },
+    user: {
+      profile: 'GET /api/user/profile',
+      by_id: 'GET /api/user/:id'
     }
   });
 });
@@ -34,7 +44,7 @@ app.use('/api/*', (req, res) => {
     success: false,
     error: 'Route for API not found'
   })
-})
+});
 
 
 const PORT = process.env.PORT || 5000;

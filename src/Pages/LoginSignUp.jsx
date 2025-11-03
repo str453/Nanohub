@@ -42,7 +42,7 @@ export const LoginSignUp = () => {
 
         console.log('User logged in:', response.user);
       } else{
-        response = await authAPI.resgister(formData);
+        response = await authAPI.register(formData);
         setSuccess('Successful signup! Please login.');
 
         setIsLogin(true);
@@ -51,7 +51,23 @@ export const LoginSignUp = () => {
       setFormData({name: '', email: '', password: ''});
     
     } catch(e){
-      setError(e.response?.data?.error || 'Error occured');
+      console.log('Error occured');
+      console.log('   - Error object:', e);
+      console.log('   - Response data:', e.response?.data);
+      console.log('   - Status code:', e.response?.status);
+      console.log('   - Request made:', e.request);
+      
+       if (e.response) {
+        // Server responded with error status
+        setError(e.response.data?.error || `Server error: ${e.response.status}`);
+      } else if (e.request) {
+        // Request was made but no response received
+        setError('No response from server. Check if backend is running on port 5000.');
+      } else {
+        // Something else happened
+        setError(e.message || 'Something went wrong');
+      }
+
     } finally {
       setLoading(false);
     }

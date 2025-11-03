@@ -1,4 +1,4 @@
-//FR# 7
+//FR# 7 and 5
 const mongoose = require('mongoose');
 
 const productSchema = new mongoose.Schema({
