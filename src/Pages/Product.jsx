@@ -7,15 +7,27 @@ import DescriptionBox from '../Components/DescriptionBox/DescriptionBox.jsx'
 import { RelatedProducts } from '../Components/RelatedProducts/RelatedProducts.jsx'
 
 export const Product = () => {
-  const {all_product}= useContext(ShopContext);
+  const {all_product, loading}= useContext(ShopContext);
   const {productId} = useParams();
-  const product = all_product.find((e)=> e.id === Number(productId));
+  
+  // MongoDB uses string IDs, not numbers
+  const product = all_product.find((e)=> e.id === productId);
 
+  // Show loading state
+  if (loading) {
+    return <div style={{textAlign: 'center', padding: '100px'}}>Loading product...</div>;
+  }
+
+  // Show error if product not found
   if (!product) {
-        // You can return a loading indicator or null while the data loads
-        // Returning 'null' prevents a crash while React waits for the next render
-        return null; 
-    }
+    return (
+      <div style={{textAlign: 'center', padding: '100px'}}>
+        <h2>Product Not Found</h2>
+        <p>The product you're looking for doesn't exist.</p>
+        <a href="/PC-Parts" style={{color: '#667eea'}}>← Back to Products</a>
+      </div>
+    );
+  }
     
   return (
     <div>

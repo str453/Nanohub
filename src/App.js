@@ -4,6 +4,7 @@ import { BrowserRouter,Routes,Route } from 'react-router-dom';
 import { AuthProvider } from './Context/AuthContext';
 import Shop from './Pages/Shop'
 import ShopCategory from './Pages/ShopCategory'
+import PCPartsMain from './Pages/PCPartsMain'
 import Product from './Pages/Product'
 import Cart from './Pages/Cart'
 import Chat from './Pages/Chat';
@@ -21,7 +22,19 @@ function App() {
       <Navbar/>
       <Routes>
         <Route path='/' element={<Shop/>}/>
-        <Route path='/PC-Parts' element={<ShopCategory banner={pc_part_banner} category="pc-part"/>}/>
+        
+        {/* Main PC Parts page - shows top 5 from each category */}
+        <Route path='/PC-Parts' element={<PCPartsMain/>}/>
+        
+        {/* Sub-category pages for each PC part type */}
+        <Route path='/PC-Parts/CPU' element={<ShopCategory banner={pc_part_banner} category="CPU"/>}/>
+        <Route path='/PC-Parts/GPU' element={<ShopCategory banner={pc_part_banner} category="GPU"/>}/>
+        <Route path='/PC-Parts/Monitor' element={<ShopCategory banner={pc_part_banner} category="Monitor"/>}/>
+        <Route path='/PC-Parts/Motherboard' element={<ShopCategory banner={pc_part_banner} category="Motherboard"/>}/>
+        <Route path='/PC-Parts/Case' element={<ShopCategory banner={pc_part_banner} category="Case"/>}/>
+        <Route path='/PC-Parts/Cooling' element={<ShopCategory banner={pc_part_banner} category="Cooling"/>}/>
+        <Route path='/PC-Parts/Storage' element={<ShopCategory banner={pc_part_banner} category="Storage"/>}/>
+        
         <Route path='/Apple' element={<ShopCategory banner={apple_banner} category="apple"/>}/>
         <Route path='/Computers' element={<ShopCategory banner={computer_banner} category="computer"/>}/>
         <Route path="product" element={<Product/>}>
