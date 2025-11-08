@@ -1,5 +1,4 @@
 // FR #7
-// backend/models/Product.js
 // Use the mongoose instance that the caller provides (prevents multiple connections)
 
 module.exports = (mongoose) => {
@@ -51,7 +50,7 @@ module.exports = (mongoose) => {
     }],
     specifications: {
       type: Map,
-      of: String // keeping everything as strings as you chose
+      of: String
     },
     rating: {
       average: {

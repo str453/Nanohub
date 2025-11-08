@@ -1,0 +1,5 @@
+{
+  // Disable automatic JSON schema downloads from schemastore to avoid editor warnings
+  // when schemastore is unreachable or blocked by a proxy/firewall.
+  "json.schemaDownload.enable": false
+}

@@ -26,4 +26,30 @@ export const authAPI = {
     }
 };
 
+export const productAPI = {
+    // Get all products (set high limit to get everything)
+    getAllProducts: async () => {
+        const response = await api.get('/product?limit=10000');
+        return response.data;
+    },
+
+    // Get products by category
+    getProductsByCategory: async (category) => {
+        const response = await api.get(`/product/category/${category}`);
+        return response.data;
+    },
+
+    // Get single product by ID
+    getProductById: async (id) => {
+        const response = await api.get(`/product/${id}`);
+        return response.data;
+    },
+
+    // Search products
+    searchProducts: async (searchTerm) => {
+        const response = await api.get(`/product?search=${searchTerm}`);
+        return response.data;
+    }
+};
+
 export default api;

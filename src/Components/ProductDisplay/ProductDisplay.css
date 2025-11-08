@@ -15,8 +15,17 @@
     height: 163px;
 }
 .productdisplay-main-img{
-    width: 586px;
-    height: 700px;
+    
+    width: 100%;
+    max-width: 586px;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    display: block;
+}
+
+.productdisplay-img{
+    width: 100%;
+    max-width: 586px;
 }
 .productdisplay-right{
     margin: 0px 70px;
