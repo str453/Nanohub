@@ -15,6 +15,11 @@ const connectDB = async() =>{
     }
 };
 
+await mongoose.connect(process.env.MONGODB_URI);
+const c = mongoose.connection;
+console.log('✅ IMPORT connected to MongoDB ->', c.host, '| DB:', c.name);
+
+
 const importRAM = async() => {
     await connectDB();
 

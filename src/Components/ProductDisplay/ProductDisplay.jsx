@@ -20,24 +20,9 @@ const ProductDisplay = (props) => {
         <div className='productdisplay'>
             <div className="productdisplay-left">
                 <div className="productdisplay-img-list">
-<<<<<<< HEAD
-                  {productImages.slice(0, 4).map((imgUrl, index) => (
-                    <img 
-                      key={index}
-                      src={imgUrl} 
-                      alt={`${product.name} - view ${index + 1}`}
-                      onClick={() => setMainImage(imgUrl)}
-                      style={{cursor: 'pointer', opacity: mainImage === imgUrl ? 1 : 0.6}}
-                    />
-                  ))}
-              </div>
-              <div className="productdisplay=img">
-                <img className='productdisplay-main-img' src={mainImage} alt={product.name} />
-=======
               </div>
               <div className="productdisplay-img">
                 <img className='productdisplay-main-img' src={product.image} alt="" />
->>>>>>> c4bc16c (Added a bit of the admin page with nav and side bars. Pictures in asset folders will be fixed later)
               </div>
             </div>
             <div className="productdisplay-right">
