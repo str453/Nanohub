@@ -19,20 +19,19 @@ const userSchema = new mongoose.Schema({
     password: {
         type: String,
         required: [true, 'Password is required'],
-        minLength: [8, 'Password must be at least 8 characters'],
+        minLength: [8, 'Password must be at least 5 characters'],
         select: false
     },
     role: {
         type: String,
-        emnum: ['user', 'admin'],
-        default: 'user'
+        emnum: ['Customer', 'admin'],
+        default: 'Customer'
     },
     address: {
         street: String,
         city: String,
         state: String,
         zipcode: String,
-        country: String
     },
     phone: {
         type: String,

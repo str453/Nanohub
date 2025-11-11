@@ -38,7 +38,7 @@ export const LoginSignUp = () => {
         setSuccess('Successfully Logged in!');
 
         localStorage.setItem('token', response.token);
-        localStorage.setItem('user', JSON.stringify(response.user));
+        localStorage.setItem('User', JSON.stringify(response.user));
 
         console.log('User logged in:', response.user);
       } else{
