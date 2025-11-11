@@ -23,8 +23,7 @@ const ShopContextProvider = (props) => {
                     image: product.images && product.images.length > 0 
                         ? product.images[0].url 
                         : '/placeholder.png',
-                    new_price: parseFloat(product.price.toFixed(2)), // Round to 2 decimals
-                    old_price: parseFloat((product.price * 1.2).toFixed(2)), // 20% markup, rounded
+                    price: parseFloat(product.price.toFixed(2)), // Round to 2 decimals
                     brand: product.brand,
                     description: product.description,
                     inStock: product.inStock,

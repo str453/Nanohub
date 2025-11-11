@@ -35,6 +35,8 @@ function App() {
         <Route path='/PC-Parts/Cooling' element={<ShopCategory banner={pc_part_banner} category="Cooling"/>}/>
         <Route path='/PC-Parts/Storage' element={<ShopCategory banner={pc_part_banner} category="Storage"/>}/>
         
+         {/* Direct GPU route for navbar */}
+        <Route path='/GPU' element={<ShopCategory banner={pc_part_banner} category="GPU"/>}/>
         <Route path='/Apple' element={<ShopCategory banner={apple_banner} category="apple"/>}/>
         <Route path='/Computers' element={<ShopCategory banner={computer_banner} category="computer"/>}/>
         <Route path="product" element={<Product/>}>
