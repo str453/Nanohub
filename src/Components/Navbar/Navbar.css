@@ -41,7 +41,7 @@
 .nav-login-cart{
     display: flex;
     align-items: center;
-    gap: 45px;
+    gap: 25px;
 }
 .nav-login-cart button{
     width: 157px;
@@ -58,6 +58,44 @@
 .nav-login-cart button:active{
     background: #f3f3f3;
     
+}
+.nav-user-icon{
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+}
+.user-icon-circle{
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #f0f0f0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #7a7a7a;
+    transition: all 0.3s ease;
+}
+.user-icon-circle:hover{
+    background: #e0e0e0;
+    border-color: #FF4141;
+}
+.user-initial{
+    font-size: 18px;
+    font-weight: 600;
+    color: #515151;
+}
+.guest-icon{
+    font-size: 20px;
+}
+.user-name{
+    font-size: 16px;
+    font-weight: 500;
+    color: #515151;
+    max-width: 100px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 .nav-cart-count{
     width: 22px;

@@ -1,7 +1,7 @@
 require('dotenv').config();
 const mongoose = require('mongoose');
-const Product = require('./models/Product.js');
-const User = require('./models/User.js');
+const Product = require('../models/Product.js');
+const User = require('../models/User.js');
 
 const connectDB = async () => {
   try {
@@ -62,3 +62,4 @@ const testModels = async () => {
 };
 
 testModels();
+

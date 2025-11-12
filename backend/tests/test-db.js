@@ -1,7 +1,7 @@
 // Simple test script to query MongoDB and verify connection
 require('dotenv').config();
 const mongoose = require('mongoose');
-const Product = require('./models/Product')(mongoose);
+const Product = require('../models/Product')(mongoose);
 
 // Connect to MongoDB
 mongoose.connect(process.env.MONGODB_URI)

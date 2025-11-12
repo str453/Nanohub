@@ -18,6 +18,11 @@ export const authAPI = {
         return response.data;
     },
 
+    checkUsername: async (username) => {
+        const response = await api.get(`/auth/check-username/${username}`);
+        return response.data;
+    },
+
     getProfile: async (token) => {
         const response = await api.get('/user/profile', {
             headers: { Authorization: `Bearer ${token}`}

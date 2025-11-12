@@ -1,6 +1,6 @@
 import './App.css';
 import { Navbar } from './Components/Navbar/Navbar';
-import { BrowserRouter,Routes,Route } from 'react-router-dom';
+import { BrowserRouter,Routes,Route, useLocation } from 'react-router-dom';
 import { AuthProvider } from './Context/AuthContext';
 import Shop from './Pages/Shop'
 import ShopCategory from './Pages/ShopCategory'
@@ -14,11 +14,12 @@ import pc_part_banner from './Components/Assets/banner_mens.png'
 import apple_banner from './Components/Assets/banner_women.png'
 import computer_banner from './Components/Assets/banner_kids.png'
 
-function App() {
+function AppContent() {
+  const location = useLocation();
+  const hideFooter = location.pathname === '/login';
+
   return (
-    <div>
-      <BrowserRouter>
-      <AuthProvider>
+    <>
       <Navbar/>
       <Routes>
         <Route path='/' element={<Shop/>}/>
@@ -44,7 +45,17 @@ function App() {
         <Route path='/login' element={<LoginSignUp/>}/>
         <Route path='/chat' element={<Chat/>}/>
       </Routes>
-      <Footer/>
+      {!hideFooter && <Footer/>}
+    </>
+  );
+}
+
+function App() {
+  return (
+    <div>
+      <BrowserRouter>
+      <AuthProvider>
+        <AppContent/>
       </AuthProvider>
       </BrowserRouter>
     </div>
