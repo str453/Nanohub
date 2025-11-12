@@ -21,7 +21,7 @@ export const Navbar = () => {
             <li onClick={()=>{setMenu("shop")}}><Link style={{ textDecoration: 'none' }} to='/'>Shop</Link>{menu==="shop"?<hr/>:<></>}</li>
             <li onClick={()=>{setMenu("PC-Parts")}}><Link style={{ textDecoration: 'none' }} to='/PC-Parts'>PC Parts</Link>{menu==="PC-Parts"?<hr/>:<></>}</li>
             <li onClick={()=>{setMenu("GPU")}}><Link style={{ textDecoration: 'none' }} to='/GPU'>GPUs</Link>{menu==="GPU"?<hr/>:<></>}</li>
-            <li onClick={()=>{setMenu("Computers")}}><Link style={{ textDecoration: 'none' }} to='/Computers'>Computers</Link>{menu==="Computers"?<hr/>:<></>}</li>
+            <li onClick={()=>{setMenu("Monitor")}}><Link style={{ textDecoration: 'none' }} to='/Monitor'>Monitor</Link>{menu==="Monitor"?<hr/>:<></>}</li>
             <li onClick={()=>{setMenu("ChatBot")}}><Link style={{ textDecoration: 'none' }} to='/chat'>Chat Bot</Link>{menu==="ChatBot" ? <hr/> : null}</li>
         </ul>
         <div className="nav-login-cart">

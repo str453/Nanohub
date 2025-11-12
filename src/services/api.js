@@ -39,6 +39,11 @@ export const productAPI = {
         return response.data;
     },
 
+    getProductsByCategoryPaginated: async (category, page=1, limit=20) =>{
+        const response = await api.get(`/product/category/${category}?page=${page}&limit=${limit}`);
+        return response.data;
+    },
+
     // Get single product by ID
     getProductById: async (id) => {
         const response = await api.get(`/product/${id}`);
