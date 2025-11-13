@@ -214,7 +214,7 @@ export const LoginSignUp = () => {
           date_of_birth: ''
         });
       }
-
+    
     } catch(e){
       console.log('Error occured');
       console.log('   - Error object:', e);
@@ -307,38 +307,38 @@ export const LoginSignUp = () => {
                 />
 
                 {/* Last Name */}
-                <input
-                  type="text"
+              <input
+                type="text"
                   name="lastName"
                   placeholder='Last Name'
                   value={formData.lastName}
-                  onChange={handleChange}
-                  required
+                onChange={handleChange}
+                required
                 />
               </>
             )}
 
             {/* Email */}
-            <input 
-              type="email" 
-              name="email"
-              placeholder='Email Address'
-              value={formData.email}
-              onChange={handleChange}
-              required
-            />
+          <input 
+            type="email" 
+            name="email"
+            placeholder='Email Address'
+            value={formData.email}
+            onChange={handleChange}
+            required
+          />
 
             {/* Password */}
             <div>
-              <input 
-                type="password"
-                name="password" 
-                placeholder='Password'
-                value={formData.password}
-                onChange={handleChange}
-                required
+          <input 
+            type="password"
+            name="password" 
+            placeholder='Password'
+            value={formData.password}
+            onChange={handleChange}
+            required
                 minLength="8"
-              />
+          />
               {!isLogin && formData.password && (
                 <div className="password-requirements">
                   <div className={formData.password.length >= 8 ? 'requirement-met' : 'requirement-unmet'}>
@@ -440,11 +440,11 @@ export const LoginSignUp = () => {
                 />
               </>
             )}
-          </div>
+        </div>
           <button type="submit" disabled={loading || (!isLogin && (!passwordValid || formData.password !== formData.confirmPassword || usernameAvailable === false))}>
-            {loading ? 'Processing...' : 'Continue'}
-          </button>
-        </form>
+          {loading ? 'Processing...' : 'Continue'}
+        </button>
+      </form>
 
         <p className="loginsignup-login">
           {isLogin ? "Don't have an account? " : "Already have an account? "}

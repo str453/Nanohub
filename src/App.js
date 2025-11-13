@@ -11,7 +11,7 @@ import Chat from './Pages/Chat';
 import LoginSignUp from './Pages/LoginSignUp'
 import Footer from './Components/Footer/Footer'
 import pc_part_banner from './Components/Assets/banner_mens.png'
-import apple_banner from './Components/Assets/banner_women.png'
+
 import computer_banner from './Components/Assets/banner_kids.png'
 
 function AppContent() {
@@ -36,7 +36,11 @@ function AppContent() {
         <Route path='/PC-Parts/Cooling' element={<ShopCategory banner={pc_part_banner} category="Cooling"/>}/>
         <Route path='/PC-Parts/Storage' element={<ShopCategory banner={pc_part_banner} category="Storage"/>}/>
         
-        <Route path='/Apple' element={<ShopCategory banner={apple_banner} category="apple"/>}/>
+         {/* Direct GPU route for navbar */}
+        <Route path='/CPU' element={<ShopCategory banner={pc_part_banner} category="CPU"/>}/>
+        <Route path='/GPU' element={<ShopCategory banner={pc_part_banner} category="GPU"/>}/>
+        <Route path='/Monitor' element={<ShopCategory banner={pc_part_banner} category="Monitor"/>}/>
+        <Route path='/Motherboard' element={<ShopCategory banner={pc_part_banner} category="Motherboard"/>}/>
         <Route path='/Computers' element={<ShopCategory banner={computer_banner} category="computer"/>}/>
         <Route path="product" element={<Product/>}>
           <Route path=':productId' element={<Product/>}/>

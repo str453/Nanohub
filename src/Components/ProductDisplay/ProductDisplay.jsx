@@ -36,8 +36,7 @@ const ProductDisplay = (props) => {
                   <p>(122)</p>
                 </div>
                 <div className="productdisplay-right-prices">
-                  <div className="productdisplay-right-price-old">${product.old_price?.toFixed(2)}</div>
-                  <div className="productdisplay-right-price-new">${product.new_price?.toFixed(2)}</div>
+                  <div className="productdisplay-right-price">${product.price?.toFixed(2)}</div>
                 </div>
                 <div className="productdisplay-right-descrption">
                   {product.description || 'No description available.'}

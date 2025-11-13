@@ -4,7 +4,7 @@ const API_URL = 'http://localhost:5000/api';
 
 const api = axios.create({
     baseURL: API_URL,
-    timoout:9000,
+    timeout:9000,
 });
 
 export const authAPI = {
@@ -41,6 +41,11 @@ export const productAPI = {
     // Get products by category
     getProductsByCategory: async (category) => {
         const response = await api.get(`/product/category/${category}`);
+        return response.data;
+    },
+
+    getProductsByCategoryPaginated: async (category, page=1, limit=20) =>{
+        const response = await api.get(`/product/category/${category}?page=${page}&limit=${limit}`);
         return response.data;
     },
 

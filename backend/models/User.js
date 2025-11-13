@@ -40,7 +40,7 @@ const userSchema = new mongoose.Schema({
     password: {
         type: String,
         required: [true, 'Password is required'],
-        minLength: [8, 'Password must be at least 8 characters'],
+        minLength: [8, 'Password must be at least 5 characters'],
         select: false
     },
     role: {
@@ -53,7 +53,6 @@ const userSchema = new mongoose.Schema({
         city: String,
         state: String,
         zipcode: String,
-        country: String
     },
     phone: {
         type: String,
