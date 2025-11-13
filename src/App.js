@@ -7,6 +7,9 @@ import ShopCategory from './Pages/ShopCategory'
 import PCPartsMain from './Pages/PCPartsMain'
 import Product from './Pages/Product'
 import Cart from './Pages/Cart'
+import Checkout from './Pages/Checkout'
+import OrderSuccess from './Pages/OrderSuccess'
+import OrderHistory from './Pages/OrderHistory'
 import Chat from './Pages/Chat';
 import LoginSignUp from './Pages/LoginSignUp'
 import Footer from './Components/Footer/Footer'
@@ -46,6 +49,9 @@ function AppContent() {
           <Route path=':productId' element={<Product/>}/>
         </Route>
         <Route path='/cart' element={<Cart/>}/>
+        <Route path='/checkout' element={<Checkout/>}/>
+        <Route path='/order-success' element={<OrderSuccess/>}/>
+        <Route path='/orders' element={<OrderHistory/>}/>
         <Route path='/login' element={<LoginSignUp/>}/>
         <Route path='/chat' element={<Chat/>}/>
       </Routes>

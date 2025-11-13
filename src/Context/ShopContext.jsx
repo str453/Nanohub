@@ -85,7 +85,14 @@ const ShopContextProvider = (props) => {
     }
 
     const removeFromCart = (itemId) => {
-        setCartItems((prev) => ({ ...prev, [itemId]: prev[itemId] - 1 }));
+        setCartItems((prev) => {
+            const currentQuantity = prev[itemId] || 0;
+            // Prevent quantity from going below 0
+            if (currentQuantity <= 0) {
+                return prev;
+            }
+            return { ...prev, [itemId]: currentQuantity - 1 };
+        });
     }
 
     const getTotalCartAmount = () => {
@@ -94,11 +101,24 @@ const ShopContextProvider = (props) => {
             if (cartItems[item] > 0) {
                 let itemInfo = all_product.find((product) => product.id === item);
                 if (itemInfo) {
-                    totalAmount += itemInfo.new_price * cartItems[item];
+                    // Use price field (not new_price which doesn't exist)
+                    totalAmount += itemInfo.price * cartItems[item];
                 }
             }
         }
-        return totalAmount;
+        return parseFloat(totalAmount.toFixed(2));
+    }
+
+    const getTaxAmount = (taxRate = 0.0875) => {
+        // Default tax rate: 8.75% (California average sales tax)
+        const subtotal = getTotalCartAmount();
+        return parseFloat((subtotal * taxRate).toFixed(2));
+    }
+
+    const getFinalTotal = (taxRate = 0.0875) => {
+        const subtotal = getTotalCartAmount();
+        const tax = getTaxAmount(taxRate);
+        return parseFloat((subtotal + tax).toFixed(2));
     }
 
     const getTotalCartItems = () => {
@@ -114,6 +134,8 @@ const ShopContextProvider = (props) => {
     const contextValue = {
         getTotalCartItems,
         getTotalCartAmount,
+        getTaxAmount,
+        getFinalTotal,
         all_product,
         cartItems,
         addToCart,

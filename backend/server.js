@@ -17,9 +17,11 @@ app.use(express.json());
 
 const product_routes = require('./routes/product.js');
 const auth_routes = require('./routes/auth.js');
+const payment_routes = require('./routes/payment.js');
 
 app.use('/api/product', product_routes);
 app.use('/api/auth', auth_routes);
+app.use('/api/payment', payment_routes);
 
 app.get('/', (req, res) => {
   res.json({

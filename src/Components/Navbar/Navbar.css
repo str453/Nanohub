@@ -64,6 +64,15 @@
     align-items: center;
     gap: 8px;
     cursor: pointer;
+    transition: all 0.3s ease;
+}
+.nav-user-icon:hover .user-icon-circle{
+    border-color: #ff4141;
+    background: #fff5f5;
+    transform: scale(1.05);
+}
+.nav-user-icon:hover .user-name{
+    color: #ff4141;
 }
 .user-icon-circle{
     width: 40px;

@@ -62,4 +62,40 @@ export const productAPI = {
     }
 };
 
+export const paymentAPI = {
+    // Create payment intent
+    createPaymentIntent: async (amount, token) => {
+        const response = await api.post('/payment/create-payment-intent', 
+            { amount },
+            { headers: { Authorization: `Bearer ${token}` }}
+        );
+        return response.data;
+    },
+
+    // Create order after payment
+    createOrder: async (orderData, token) => {
+        const response = await api.post('/payment/create-order',
+            orderData,
+            { headers: { Authorization: `Bearer ${token}` }}
+        );
+        return response.data;
+    },
+
+    // Get user's orders
+    getOrders: async (token) => {
+        const response = await api.get('/payment/orders',
+            { headers: { Authorization: `Bearer ${token}` }}
+        );
+        return response.data;
+    },
+
+    // Get single order
+    getOrderById: async (orderId, token) => {
+        const response = await api.get(`/payment/orders/${orderId}`,
+            { headers: { Authorization: `Bearer ${token}` }}
+        );
+        return response.data;
+    }
+};
+
 export default api;

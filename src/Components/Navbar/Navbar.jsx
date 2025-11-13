@@ -38,18 +38,20 @@ export const Navbar = () => {
             ) : (
                 <Link style={{ textDecoration: 'none' }} to='/login'><button>Login</button></Link>
             )}
-            <div className="nav-user-icon">
-                <div className="user-icon-circle">
-                    {user ? (
-                        <span className="user-initial">{user.name ? user.name.charAt(0).toUpperCase() : 'U'}</span>
-                    ) : (
-                        <span className="guest-icon">👤</span>
+            <Link style={{ textDecoration: 'none' }} to={user ? '/orders' : '/login'}>
+                <div className="nav-user-icon">
+                    <div className="user-icon-circle">
+                        {user ? (
+                            <span className="user-initial">{user.name ? user.name.charAt(0).toUpperCase() : 'U'}</span>
+                        ) : (
+                            <span className="guest-icon">👤</span>
+                        )}
+                    </div>
+                    {user && (
+                        <span className="user-name">{user.name ? user.name.split(' ')[0] : 'User'}</span>
                     )}
                 </div>
-                {user && (
-                    <span className="user-name">{user.name ? user.name.split(' ')[0] : 'User'}</span>
-                )}
-            </div>
+            </Link>
             <Link style={{ textDecoration: 'none' }} to='/cart'><img src={cart_icon} alt=""/></Link>
             <div className="nav-cart-count">{getTotalCartItems()}</div>
             
