@@ -13,6 +13,16 @@
 }
 .productdisplay-img-list img{
     height: 163px;
+    width: 80px;
+    object-fit: cover;
+    border-radius: 4px;
+}
+.productdisplay-img-list img:hover{
+    opacity: 0.8 !important;
+}
+.productdisplay-img-list img.active{
+    opacity: 1 !important;
+    border: 2px solid #ff4141 !important;
 }
 .productdisplay-main-img{
     

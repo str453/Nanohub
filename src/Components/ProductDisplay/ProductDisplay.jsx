@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useState, useEffect, useMemo } from 'react'
 import './ProductDisplay.css'
 import star_icon from "../Assets/star_icon.png";
 import star_dull_icon from "../Assets/star_dull_icon.png";
@@ -8,21 +8,60 @@ const ProductDisplay = (props) => {
       const {product} = props;
       const {addToCart} = useContext(ShopContext);
       
-      // State to track which image is currently displayed
-      const [mainImage, setMainImage] = useState(product.image);
+      // Extract all image URLs - handles multiple formats
+      const productImages = useMemo(() => {
+        // Case 1: images is an array of objects with url property
+        if (product.images && Array.isArray(product.images) && product.images.length > 0) {
+          return product.images.map(img => (typeof img === 'string' ? img : img.url)).filter(url => url);
+        }
+        
+        // Case 2: images is stored as a pipe-separated string (check if product.image_urls exists)
+        if (product.image_urls && typeof product.image_urls === 'string') {
+          return product.image_urls.split('|').map(url => url.trim()).filter(url => url);
+        }
+        
+        // Case 3: product.image might be a pipe-separated string
+        if (product.image && typeof product.image === 'string' && product.image.includes('|')) {
+          return product.image.split('|').map(url => url.trim()).filter(url => url);
+        }
+        
+        // Case 4: Fallback to single image
+        return product.image ? [product.image] : ['/placeholder.png'];
+      }, [product.images, product.image_urls, product.image]);
       
-      // Get all images (use images array if available, otherwise fallback to single image)
-      const productImages = product.images && product.images.length > 0 
-        ? product.images.map(img => img.url) 
-        : [product.image];
+      // State to track which image is currently displayed
+      const [mainImage, setMainImage] = useState(productImages[0] || product.image || '/placeholder.png');
+      
+      // Update mainImage when product changes
+      useEffect(() => {
+        if (productImages.length > 0) {
+          setMainImage(productImages[0]);
+        }
+      }, [product.id, productImages]);
 
     return (
         <div className='productdisplay'>
             <div className="productdisplay-left">
                 <div className="productdisplay-img-list">
-              </div>
+                  {productImages.length > 1 && productImages.map((imgUrl, index) => (
+                    <img 
+                      key={index}
+                      src={imgUrl} 
+                      alt={`${product.name} - view ${index + 1}`}
+                      onClick={() => setMainImage(imgUrl)}
+                      className={mainImage === imgUrl ? 'active' : ''}
+                      style={{
+                        cursor: 'pointer',
+                        opacity: mainImage === imgUrl ? 1 : 0.6,
+                        border: mainImage === imgUrl ? '2px solid #ff4141' : '2px solid transparent',
+                        borderRadius: '4px',
+                        transition: 'all 0.3s ease'
+                      }}
+                    />
+                  ))}
+                </div>
               <div className="productdisplay-img">
-                <img className='productdisplay-main-img' src={product.image} alt="" />
+                <img className='productdisplay-main-img' src={mainImage} alt={product.name} />
               </div>
             </div>
             <div className="productdisplay-right">
