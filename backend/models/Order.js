@@ -34,7 +34,7 @@ const orderSchema = new mongoose.Schema({
     paymentMethod: {
         type: String,
         required: true,
-        enum: ['credit_card', 'debt_Card', 'paypal', 'crypto']
+        enum: ['credit_card', 'debt_card', 'paypal', 'crypto']
     },
     paymentResult:{
         id: String,
@@ -68,12 +68,30 @@ const orderSchema = new mongoose.Schema({
         default: false
     },
     paidAt: Date,
+    // Shipping timeline fields
+    orderedAt: {
+        type: Date,
+        required: true,
+        default: Date.now
+    },
+    shippedAt: {
+        type: Date
+    },
+    deliveredAt: {
+        type: Date
+    },
     isDelivered: {
         type: Boolean,
         required: true,
         default: false
     },
-    deliveredAt: Date
+    // Order status: "ordered" | "shipped" | "delivered"
+    status: {
+        type: String,
+        enum: ['ordered', 'shipped', 'delivered'],
+        required: true,
+        default: 'ordered'
+    }
 },{
     timestamps: true
 });

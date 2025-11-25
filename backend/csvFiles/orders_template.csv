@@ -1,0 +1,5 @@
+user_email,product_name,quantity,price,street,city,state,zipcode,payment_method,is_paid,created_at
+john.doe@example.com,Intel Core i9-13900K,1,549.99,123 Main St,Los Angeles,CA,90001,credit_card,true,2024-01-15T10:30:00Z
+jane.smith@example.com,NVIDIA RTX 4090,1,1599.99,456 Oak Ave,San Francisco,CA,94102,credit_card,true,2024-01-20T14:20:00Z
+bob.jones@example.com,Samsung 32" 4K Monitor,2,299.99,789 Pine Rd,San Diego,CA,92101,paypal,true,2024-02-01T09:15:00Z
+

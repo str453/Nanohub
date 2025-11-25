@@ -1,24 +1,27 @@
 import './App.css';
 import { Navbar } from './Components/Navbar/Navbar';
-import { BrowserRouter,Routes,Route } from 'react-router-dom';
+import { BrowserRouter,Routes,Route, useLocation } from 'react-router-dom';
 import { AuthProvider } from './Context/AuthContext';
 import Shop from './Pages/Shop'
 import ShopCategory from './Pages/ShopCategory'
 import PCPartsMain from './Pages/PCPartsMain'
 import Product from './Pages/Product'
 import Cart from './Pages/Cart'
-import Chat from './Pages/Chat';
+import Checkout from './Pages/Checkout'
+import OrderSuccess from './Pages/OrderSuccess'
+import OrderHistory from './Pages/OrderHistory'
+import ChatWidget from './Components/ChatBot/ChatBot';
 import LoginSignUp from './Pages/LoginSignUp'
 import Footer from './Components/Footer/Footer'
 import pc_part_banner from './Components/Assets/banner_mens.png'
-
 import computer_banner from './Components/Assets/banner_kids.png'
 
-function App() {
+function AppContent() {
+  const location = useLocation();
+  const hideFooter = location.pathname === '/login';
+
   return (
-    <div>
-      <BrowserRouter>
-      <AuthProvider>
+    <>
       <Navbar/>
       <Routes>
         <Route path='/' element={<Shop/>}/>
@@ -45,10 +48,23 @@ function App() {
           <Route path=':productId' element={<Product/>}/>
         </Route>
         <Route path='/cart' element={<Cart/>}/>
+        <Route path='/checkout' element={<Checkout/>}/>
+        <Route path='/order-success' element={<OrderSuccess/>}/>
+        <Route path='/orders' element={<OrderHistory/>}/>
         <Route path='/login' element={<LoginSignUp/>}/>
-        <Route path='/chat' element={<Chat/>}/>
       </Routes>
-      <Footer/>
+      <ChatWidget/>
+      {!hideFooter && <Footer/>}
+    </>
+  );
+}
+
+function App() {
+  return (
+    <div>
+      <BrowserRouter>
+      <AuthProvider>
+        <AppContent/>
       </AuthProvider>
       </BrowserRouter>
     </div>

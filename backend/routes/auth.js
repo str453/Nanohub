@@ -9,22 +9,92 @@ const generateToken = (id) => {
     });
 };
 
+// Check if username is available
+router.get('/check-username/:username', async (req, res) => {
+    try {
+        const { username } = req.params;
+        const usernameLower = username.toLowerCase();
+        
+        // Check if username exists (case-insensitive)
+        const userExists = await User.findOne({ username: usernameLower });
+        
+        // Also check if username matches the pattern
+        const isValidFormat = /^[a-zA-Z0-9_]{3,30}$/.test(username);
+        
+        if (!isValidFormat) {
+            return res.json({
+                available: false,
+                reason: 'Invalid format'
+            });
+        }
+        
+        res.json({
+            available: !userExists
+        });
+    } catch (error) {
+        console.error('Error checking username:', error);
+        res.status(500).json({
+            success: false,
+            error: 'Error checking username'
+        });
+    }
+});
+
 router.post('/register', async (req, res) =>{
     try{
-        const {name, email, password} = req.body;
+        const {
+            username,
+            firstName,
+            lastName,
+            email,
+            password,
+            address,
+            city,
+            state,
+            postal_code,
+            phone,
+            date_of_birth
+        } = req.body;
 
-        const userExists = await User.findOne({email});
-        if(userExists){
+        // Check if username exists
+        const usernameExists = await User.findOne({ username: username.toLowerCase() });
+        if(usernameExists){
+            return res.status(400).json({
+                success: false,
+                error: 'Username already exists'
+            });
+        }
+
+        // Check if email exists
+        const emailExists = await User.findOne({ email: email.toLowerCase() });
+        if(emailExists){
             return res.status(400).json({
                 success: false,
                 error: 'User associated with email exists'
             });
         }
 
+        // Create full name from first and last name
+        const name = `${firstName} ${lastName}`.trim();
+
+        // Create user with all fields
         const user = await User.create({
+            username: username.toLowerCase(),
             name,
-            email,
-            password
+            firstName,
+            lastName,
+            email: email.toLowerCase(),
+            password,
+            address: {
+                street: address || '',
+                city: city || '',
+                state: state || '',
+                zipcode: postal_code || '',
+                country: 'USA'
+            },
+            phone: phone ? phone.replace(/\D/g, '') : undefined, // Remove non-digits, undefined if empty
+            dateOfBirth: date_of_birth ? new Date(date_of_birth) : undefined,
+            role: 'user' // Automatically set to user/customer
         });
 
         if(user){
@@ -32,11 +102,14 @@ router.post('/register', async (req, res) =>{
 
             res.status(201).json({
                 success: true,
-                message: 'User successfully registerd',
+                message: 'User successfully registered',
                 token,
                 user:{
                     id: user._id,
+                    username: user.username,
                     name: user.name,
+                    firstName: user.firstName,
+                    lastName: user.lastName,
                     email: user.email,
                     role: user.role,
                     address: user.address,
@@ -46,9 +119,28 @@ router.post('/register', async (req, res) =>{
         }
     } catch(error){
         console.error('Error registering user:', error);
+        
+        // Handle validation errors
+        if(error.name === 'ValidationError'){
+            const errors = Object.values(error.errors).map(err => err.message);
+            return res.status(400).json({
+                success: false,
+                error: errors.join(', ')
+            });
+        }
+
+        // Handle duplicate key errors
+        if(error.code === 11000){
+            const field = Object.keys(error.keyPattern)[0];
+            return res.status(400).json({
+                success: false,
+                error: `${field} already exists`
+            });
+        }
+
         res.status(500).json({
             success: false,
-            error: 'Error registering user'
+            error: error.message || 'Error registering user'
         });
     }
 });
@@ -72,7 +164,7 @@ router.post('/login', async(req, res) => {
                     email: user.email,
                     role: user.role,
                     address: user.address,
-                    phonse: user.phone
+                    phone: user.phone
                 }
             });
         } else{

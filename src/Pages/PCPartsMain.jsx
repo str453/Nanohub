@@ -85,7 +85,7 @@ export const PCPartsMain = () => {
 
       {/* Category Sections */}
       {categories.map((category, idx) => {
-        const randomProducts = getRandomProducts(category.name, 7);
+        const randomProducts = getRandomProducts(category.name, 6);
         
         if (randomProducts.length === 0) return null; // Skip if no products
 

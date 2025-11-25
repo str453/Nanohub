@@ -208,6 +208,7 @@ You should now have:
 1. **MongoDB** running (either Atlas in cloud or local service)
 2. **Backend** running on `http://localhost:5000` (Terminal 1)
 3. **Frontend** running on `http://localhost:3000` (Terminal 2)
+4. **Chatbot API** running on `http://localhost:3001` (Terminal 3)
 
 ### Test It:
 1. Open browser to `http://localhost:3000` - You should see the Nanohub homepage
@@ -368,6 +369,10 @@ npm run dev
 # Terminal 2: Start frontend
 cd /path/to/Nanohub/
 npm start
+
+# Terminal 3: Start chat bot API
+cd /path/to/Nanohub/
+node server.js
 ```
 
 ---

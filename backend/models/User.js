@@ -3,11 +3,32 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 
 const userSchema = new mongoose.Schema({
+    username: {
+        type: String,
+        required: [true, 'Username is required'],
+        unique: true,
+        trim: true,
+        minLength: [3, 'Username must be at least 3 characters'],
+        maxLength: [30, 'Username cannot exceed 30 characters'],
+        match: [/^[a-zA-Z0-9_]+$/, 'Username can only contain letters, numbers, and underscores']
+    },
     name: {
         type: String,
         required: [true, 'User name is required'],
         trim: true,
         maxLength: [40, 'Name cannot exceed 40 characters']
+    },
+    firstName: {
+        type: String,
+        required: [true, 'First name is required'],
+        trim: true,
+        maxLength: [50, 'First name cannot exceed 50 characters']
+    },
+    lastName: {
+        type: String,
+        required: [true, 'Last name is required'],
+        trim: true,
+        maxLength: [50, 'Last name cannot exceed 50 characters']
     },
     email: {
         type: String,
@@ -24,8 +45,8 @@ const userSchema = new mongoose.Schema({
     },
     role: {
         type: String,
-        emnum: ['Customer', 'admin'],
-        default: 'Customer'
+        enum: ['user', 'admin'],
+        default: 'user'
     },
     address: {
         street: String,
@@ -36,6 +57,9 @@ const userSchema = new mongoose.Schema({
     phone: {
         type: String,
         match: [/^\d{10,15}$/, 'Please enter a valid phone number']
+    },
+    dateOfBirth: {
+        type: Date
     }
 }, {
     timestamps: true

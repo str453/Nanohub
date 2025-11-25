@@ -18,6 +18,11 @@ export const authAPI = {
         return response.data;
     },
 
+    checkUsername: async (username) => {
+        const response = await api.get(`/auth/check-username/${username}`);
+        return response.data;
+    },
+
     getProfile: async (token) => {
         const response = await api.get('/user/profile', {
             headers: { Authorization: `Bearer ${token}`}
@@ -53,6 +58,42 @@ export const productAPI = {
     // Search products
     searchProducts: async (searchTerm) => {
         const response = await api.get(`/product?search=${searchTerm}`);
+        return response.data;
+    }
+};
+
+export const paymentAPI = {
+    // Create payment intent
+    createPaymentIntent: async (amount, token) => {
+        const response = await api.post('/payment/create-payment-intent', 
+            { amount },
+            { headers: { Authorization: `Bearer ${token}` }}
+        );
+        return response.data;
+    },
+
+    // Create order after payment
+    createOrder: async (orderData, token) => {
+        const response = await api.post('/payment/create-order',
+            orderData,
+            { headers: { Authorization: `Bearer ${token}` }}
+        );
+        return response.data;
+    },
+
+    // Get user's orders
+    getOrders: async (token) => {
+        const response = await api.get('/payment/orders',
+            { headers: { Authorization: `Bearer ${token}` }}
+        );
+        return response.data;
+    },
+
+    // Get single order
+    getOrderById: async (orderId, token) => {
+        const response = await api.get(`/payment/orders/${orderId}`,
+            { headers: { Authorization: `Bearer ${token}` }}
+        );
         return response.data;
     }
 };
