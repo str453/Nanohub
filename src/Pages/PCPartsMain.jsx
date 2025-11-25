@@ -94,7 +94,7 @@ export const PCPartsMain = () => {
             <div className="category-header">
               <h2>{category.displayName}</h2>
               <Link to={category.route} className="view-all-btn">
-                View All ({randomProducts.length}) →
+                View All →
               </Link>
             </div>
             

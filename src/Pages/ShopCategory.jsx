@@ -102,7 +102,7 @@ export const ShopCategory = (props) => {
 
       {hasMore && !loading && (
         <div className="shopcategory-loadmore" onClick={loadMoreProducts}>
-          Explore More {props.category} Products
+          Explore More {props.category}s
         </div>
       )}
 

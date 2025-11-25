@@ -276,7 +276,7 @@ export const LoginSignUp = () => {
                   <input
                     type="text"
                     name="username"
-                    placeholder='Username (3-30 characters, letters, numbers, underscores only)'
+                    placeholder='Username (3-30 characters)'
                     value={formData.username}
                     onChange={handleChange}
                     required
