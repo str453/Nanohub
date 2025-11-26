@@ -50,7 +50,7 @@ export const Popular = () => {
       <div className="popular">
         <h1>POPULAR IN PC PARTS</h1>
         <hr />
-        <div className="loading-message">loading popular products..</div>
+        <div className="loading-message">Loading Popular products..</div>
       </div>
     )
   }

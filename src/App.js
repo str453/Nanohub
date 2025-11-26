@@ -38,7 +38,7 @@ function AppContent() {
         <Route path='/PC-Parts/Cooling' element={<ShopCategory banner={pc_part_banner} category="Cooling"/>}/>
         <Route path='/PC-Parts/Storage' element={<ShopCategory banner={pc_part_banner} category="Storage"/>}/>
         
-         {/* Direct GPU route for navbar */}
+         {/* Direct routes for navbar */}
         <Route path='/CPU' element={<ShopCategory banner={pc_part_banner} category="CPU"/>}/>
         <Route path='/GPU' element={<ShopCategory banner={pc_part_banner} category="GPU"/>}/>
         <Route path='/Monitor' element={<ShopCategory banner={pc_part_banner} category="Monitor"/>}/>

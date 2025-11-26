@@ -11,51 +11,63 @@ export const Splurge = () => {
   const [cachedData, setCachedData] = useState(null)
 
 
-  const getRandomSubset = useCallback((products, percentage = 0.3) => {
-    if (products.length === 0) return []
-    const shuffled = [...products].sort(() => Math.random() - 0.5)
-    const subsetSize = Math.max(1, Math.floor(products.length * percentage))
-    return shuffled.slice(0, subsetSize)
+  const getRandomTopProduct = useCallback((categoryProducts) => {
+    if (categoryProducts.length === 0) return null
+    
+
+    const topFive = categoryProducts
+      .sort((a, b) => (b.price || 0) - (a.price || 0))
+      .slice(0, 5)
+    
+
+    if (topFive.length === 0) return null
+    const randomIndex = Math.floor(Math.random() * topFive.length)
+    const selectedProduct = topFive[randomIndex]
+    
+    return {
+      id: selectedProduct._id || selectedProduct.id, 
+      name: selectedProduct.name, 
+      image: selectedProduct.images?.[0]?.url || '/placeholder.png',
+      price: selectedProduct.price, 
+      category: selectedProduct.category
+    }
   }, [])
 
-    const processProductsOptimized = useCallback((products) => {
+  const processProductsOptimized = useCallback((products) => {
     const splurgeItems = []
     
+ 
+    const productsByCategory = {}
     CATEGORIES.forEach(category => {
-          const categoryProducts = products.filter(product => 
-        product.category === category &&
-        product.price !== undefined &&
-        product.price !== null
-      )
-      
+      productsByCategory[category] = []
+    })
+    
+
+    products.forEach(product => {
+      if (product.category && product.price != null && CATEGORIES.includes(product.category)) {
+        productsByCategory[product.category].push(product)
+      }
+    })
+    
+    CATEGORIES.forEach(category => {
+      const categoryProducts = productsByCategory[category]
       if (categoryProducts.length > 0) {
-        
-        const randomHalf = getRandomSubset(categoryProducts, 0.3)
-        console.log(`Category ${category}: ${categoryProducts.length} total, ${randomHalf.length} in random subset`)
-        
-        if (randomHalf.length > 0) {
-          const sortedHalf = randomHalf.sort((a, b) => (b.price || 0) - (a.price || 0))
-          const mostExpensiveFromHalf = sortedHalf[0] 
-          
-          splurgeItems.push({
-            id: mostExpensiveFromHalf._id || mostExpensiveFromHalf.id, 
-            name: mostExpensiveFromHalf.name, 
-            image: mostExpensiveFromHalf.images?.[0]?.url || '/placeholder.png',
-            price: mostExpensiveFromHalf.price, 
-            category: mostExpensiveFromHalf.category
-          })
+        const selectedProduct = getRandomTopProduct(categoryProducts)
+        if (selectedProduct) {
+          splurgeItems.push(selectedProduct)
         }
       }
     })
     
-    console.log(`Generated ${splurgeItems.length} splurge items from ${CATEGORIES.length} categories`)
     
-    const finalProducts = splurgeItems.length > 8 
-      ? [...splurgeItems].sort(() => Math.random() - 0.5).slice(0, 8)
-      : [...splurgeItems].sort(() => Math.random() - 0.5)
+    const shuffled = [...splurgeItems]
+    for (let i = shuffled.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]]
+    }
     
-    return finalProducts
-  }, [getRandomSubset])
+    return shuffled.slice(0, 8)
+  }, [getRandomTopProduct])
 
   const fetchSplurgeProducts = useCallback(async () => {
     try {
@@ -100,7 +112,7 @@ export const Splurge = () => {
       <div className="splurge">
         <h1>SPLURGE</h1>
         <hr/>
-        <div className="loading-message">Loading Splurge Items..</div>
+        <div className="loading-message">Loading Splurge products..</div>
       </div>
     )
   }
