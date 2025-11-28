@@ -1,9 +1,9 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import './Navbar.css'
 
 import logo from '../Assets/logo.png'
 import cart_icon from '../Assets/cart_icon.png'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { ShopContext } from '../../Context/ShopContext'
 import { useAuth } from '../../Context/AuthContext'
 
@@ -13,6 +13,21 @@ export const Navbar = () => {
     const {getTotalCartItems} = useContext(ShopContext);
     const { user, logout } = useAuth();
     const navigate = useNavigate();
+    const location = useLocation();
+
+    useEffect(() => {
+        const current = location.pathname;
+
+        if(current === '/'){
+            setMenu("shop");
+        } else if(current === '/PC-Parts'){
+            setMenu("PC-Parts");
+        } else if(current === '/GPU'){
+            setMenu("GPU");
+        } else if(current === '/Monitor'){
+            setMenu("Monitor");
+        }
+    }, [location.pathname])
 
     const handleLogout = () => {
         logout();
@@ -35,7 +50,7 @@ export const Navbar = () => {
             {user ? (
                 <button onClick={handleLogout}>Logout</button>
             ) : (
-                <Link style={{ textDecoration: 'none' }} to='/login'><button>Login</button></Link>
+                <Link style={{ textDecoration: 'none' }} to='/login' onClick={(e) => {if(location.pathname === '/login') {e.preventDefault(); window.location.reload();}}}><button>Login</button></Link>
             )}
             <Link style={{ textDecoration: 'none' }} to={user ? '/orders' : '/login'}>
                 <div className="nav-user-icon">

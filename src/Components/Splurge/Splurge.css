@@ -4,26 +4,42 @@
     align-items: center;
     gap: 10px;
     margin-bottom: 100px;
+    padding: 0 5px;
 }
 .splurge h1{
     color: #171717;
-    font-size: 50px;
+    font-size: clamp(32px, 5vw, 50px);
     font-weight: 600;
+    text-align: center;
 }
 .splurge hr{
-    width: 200px;
+    width: clamp(150px, 30vw, 200px);
     height: 6px;
     border-radius: 10px;
     background-color: #252525;
 }
 .collections{
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     margin-top: 50px;
     gap: 30px;
+    width: 100%;
+    max-width: 1200px;
+    padding: 0 5px;
+    align-items: start;
+    margin-left: auto;
+    margin-right: auto;
+}
+.collections > *{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    min-height: 300px;
 }
 .collections img {
     max-width: 100%;
     display: block;
-    object-fit: contain;          
+    object-fit: contain;    
+    height: 200px;
+    width: 100%;      
 }

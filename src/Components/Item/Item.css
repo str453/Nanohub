@@ -3,6 +3,7 @@
     height: 420px; /* Fixed height for all items */
     display: flex;
     flex-direction: column;
+    padding: 0 20px;
 }
 
 .item img{

@@ -2,7 +2,7 @@
 Functional Requirement #6-7 Viewing Product Details
 */
 
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect} from 'react'
 import './CSS/ShopCategory.css'
 import {productAPI} from '../services/api'
 import dropdown_icon from '../Components/Assets/dropdown_icon.png'
@@ -13,20 +13,25 @@ export const ShopCategory = (props) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
   const [products, setProducts] = useState([]);
+  const [allProducts, setAllProducts] = useState([]);
+  const [sortBy, setSortBy] = useState('default');
+  const [showDropdown, setDropdown] = useState(false);
 
   useEffect(() => { 
     const fetchCategoryProducts = async (page=1, limit=20) => {
     try {
       setLoading(true);
-      console.log(`Fetching ${props.category} products page ${page}`);
-
       const data = await productAPI.getProductsByCategoryPaginated(props.category, page, limit);
-      console.log(`Got ${data.products?.length || 0} ${props.category} products on page ${page}`);
+     
+      let fetchedProducts = data?.products || [];
 
       if(page === 1){
-      setProducts(data.products || []);
+      setAllProducts(fetchedProducts);
+      setProducts(fetchedProducts);
       } else {
-      setProducts(prev => [...prev, ...(data.products || [])]);
+      const newAllProducts = [...allProducts, ...fetchedProducts];
+      setAllProducts(newAllProducts);
+      setProducts(newAllProducts);
       }
 
       setHasMore(data.pagination?.next_page || false);
@@ -35,6 +40,7 @@ export const ShopCategory = (props) => {
     catch(e){
       console.error(`Error fetching ${props.category} products:`, e);
       setProducts([]);
+      setAllProducts([]);
       setHasMore(false);
     }
     finally {
@@ -43,11 +49,39 @@ export const ShopCategory = (props) => {
   };
 
     setProducts([]);
+    setAllProducts([]);
     setCurrentPage(1);
     setHasMore(true);
 
     fetchCategoryProducts(1);
-  }, [props.category]);
+  }, [props.category]); //eslint-disable-line
+
+  useEffect(() => {
+    if(sortBy === 'default'){
+      setProducts([...allProducts]);
+    } else{
+      const sorted = sortProducts([...allProducts], sortBy);
+      setProducts(sorted);
+    }
+  }, [sortBy, allProducts]);
+
+  const sortProducts = (productsToSort, sortType) => {
+    if(!productsToSort || !Array.isArray(productsToSort)) return [];
+    const sorted = [...productsToSort];
+    switch(sortType){
+      case 'price-low-high':
+        return sorted.sort((a,b) => (a.price || 0) - (b.price || 0));
+      case 'price-high-low':
+        return sorted.sort((a,b) => (b.price || 0) - (a.price || 0));
+      default:
+        return sorted;
+    }
+  };
+
+  const sortChange = (sortType) => {
+    setSortBy(sortType);
+    setDropdown(false);
+  };
 
   const loadMoreProducts = () => {
     if(!loading && hasMore){
@@ -61,7 +95,18 @@ export const ShopCategory = (props) => {
       const nextPage = currentPage + 1;
       const data = await productAPI.getProductsByCategoryPaginated(props.category, nextPage, 20);
 
-      setProducts(prev => [...prev, ...(data.products || [])]);
+      let newProducts = data?.products || [];
+
+      const updatedAllProducts = [...allProducts, ...newProducts];
+      setAllProducts(updatedAllProducts);
+
+      if(sortBy !== 'default'){
+        setProducts(updatedAllProducts);
+      } else{
+        const sortedProducts = sortProducts(updatedAllProducts, sortBy);
+        setProducts(sortedProducts);
+      }
+
       setHasMore(data.pagination?.next_page || false);
       setCurrentPage(nextPage);
     }
@@ -74,6 +119,7 @@ export const ShopCategory = (props) => {
   };
 
   const productCount = products.length;
+  const displayCount = Math.min(productCount, 20 * currentPage);
 
   
 
@@ -82,11 +128,24 @@ export const ShopCategory = (props) => {
       <img className='shopcategory-banner'src={props.banner} alt="" />
       <div className="shopcategory-indexSort">
         <p>
-          <span>Showing 1-{productCount}</span> out of {productCount} products
+          <span>Showing 1-{displayCount}</span> products
           {hasMore && ` (more available)`}
         </p>
-        <div className="shopcategory-sort">
+        <div className="shopcategory-sort" onClick={() => setDropdown(!showDropdown)}>
           Sort by <img src={dropdown_icon} alt="" />
+          {showDropdown && (
+            <div className="sort-dropdown">
+              <div className="sort-option" onClick={() => sortChange('default')}>
+                Default
+            </div>
+            <div className="sort-option" onClick={() => sortChange('price-low-high')}>
+              Price: low to High
+            </div>
+            <div className="sort-option" onClick={() => sortChange('price-high-low')}>
+              Price: High to Low
+            </div>
+            </div>
+          )}
         </div>
       </div>
 
@@ -97,7 +156,7 @@ export const ShopCategory = (props) => {
       </div>
 
       {loading && (
-        <div className="loading-Message">Loading {props.category} procucts from DB</div>
+        <div className="loading-message">Loading {props.category} products from database</div>
       )}
 
       {hasMore && !loading && (
@@ -113,7 +172,7 @@ export const ShopCategory = (props) => {
       )}
 
       {products.length === 0 && !loading && (
-        <div className="no-prodcuts-message">
+        <div className="no-products-message">
           <h3>No {props.category} products found</h3>
           <p>Make sure backend is running and has {props.category} products</p>
         </div>
