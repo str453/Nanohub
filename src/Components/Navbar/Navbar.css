@@ -72,9 +72,9 @@
     width: clamp(80px, 10vw, 157px);
     height: clamp(40px, 5vw, 58px);
     outline: none;
-    border: 1px solid #7a7a7a;
-    border-radius: 75px;
-    color: #515151;
+    border: 2px solid #7a7a7a;
+    border-radius: 65px;
+    color: black;
     font-size: clamp(14px, 1.5vw, 20px);
     font-weight: 500;
     background: white;

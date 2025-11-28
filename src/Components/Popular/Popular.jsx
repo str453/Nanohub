@@ -22,7 +22,7 @@ export const Popular = () => {
 
       if (response.success && response.products){
         const rp = [...response.products].sort(() => 0.5 - Math.random())
-        const randomProducts = rp.slice(0,4)
+        const randomProducts = rp.slice(0,6)
 
         const matchedProducts = randomProducts.map(product => ({
           id: product._id || product.id,

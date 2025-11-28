@@ -13,9 +13,7 @@ export const PCPartsMain = () => {
   const [dataLoaded, setDataLoaded] = useState(false);
 
   useEffect(() => {
-    if(!loading && all_product.length > 0){
-      setDataLoaded(true);
-    }else if (!loading && all_product.length === 0){
+    if(!loading){
       setDataLoaded(true);
     }
   }, [loading, all_product.length]);
