@@ -6,7 +6,7 @@ import React, {useState, useEffect} from 'react'
 import './Popular.css'
 import {productAPI} from '../../services/api'
 import Item from '../Item/Item'
-
+const CATEGORIES = ['GPU', 'CPU', 'Monitor', 'Motherboard', 'Cooling', 'Case', 'Storage']
 export const Popular = () => {
   const [popularProdcuts, setPopularProducts] = useState([])
   const [loading, setLoading] = useState(true)
@@ -18,14 +18,32 @@ export const Popular = () => {
   const fetchRandomProducts = async () => {
     try{
       setLoading(true)
-      const response = await productAPI.getAllProducts()
+      const fetchP = CATEGORIES.map(category => productAPI.getProductsByCategoryPaginated(category, 1, 80)
+        .then(response => {
+          if(response.success && response.products){
+            return response.products
+          }
+          return []
+        })
+        .catch(e => {
+          console.error(`Error fetching ${category}`, e)
+          return []
+        })
+      )
 
-      if (response.success && response.products){
-        const rp = [...response.products].sort(() => 0.5 - Math.random())
-        const randomProducts = rp.slice(0,6)
+      const results = await Promise.allSettled(fetchP)
+      const allProducts = []
+      results.forEach(result => {
+        if(result.status === 'fulfilled'){
+          allProducts.push(...result.value)
+        }
+      })
 
-        const matchedProducts = randomProducts.map(product => ({
-          id: product._id || product.id,
+      const shuffled = [...allProducts].sort(() => 0.5 - Math.random())
+      const randomProducts = shuffled.slice(0, 6)
+
+      const matchedProducts = randomProducts.map(product => ({
+        id: product._id || product.id,
           name: product.name,
           image: product.images && product.images.length > 0 ? product.images[0].url : '/placeholder.png',
           price: product.price,
@@ -35,7 +53,6 @@ export const Popular = () => {
 
         setPopularProducts(matchedProducts)
       }
-    } 
     catch(e) {
       console.error('Error fetching popular products: ', e)
       setPopularProducts([])

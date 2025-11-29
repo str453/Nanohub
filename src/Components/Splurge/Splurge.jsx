@@ -8,105 +8,82 @@ const CATEGORIES = ['GPU', 'CPU', 'Monitor', 'Motherboard', 'Cooling', 'Case', '
 export const Splurge = () => {
   const [splurgeProducts, setSplurgeProducts] = useState([])
   const [loading, setLoading] = useState(true)
-  const [cachedData, setCachedData] = useState(null)
+  const [cachedData, setCachedData] = useState({})
 
 
-  const getRandomTopProduct = useCallback((categoryProducts) => {
-    if (categoryProducts.length === 0) return null
-    
-
-    const topFive = categoryProducts
-      .sort((a, b) => (b.price || 0) - (a.price || 0))
-      .slice(0, 5)
-    
-
-    if (topFive.length === 0) return null
-    const randomIndex = Math.floor(Math.random() * topFive.length)
-    const selectedProduct = topFive[randomIndex]
-    
-    return {
-      id: selectedProduct._id || selectedProduct.id, 
-      name: selectedProduct.name, 
-      image: selectedProduct.images?.[0]?.url || '/placeholder.png',
-      price: selectedProduct.price, 
-      category: selectedProduct.category
-    }
-  }, [])
-
-  const processProductsOptimized = useCallback((products) => {
-    const splurgeItems = []
-    
- 
-    const productsByCategory = {}
-    CATEGORIES.forEach(category => {
-      productsByCategory[category] = []
-    })
-    
-
-    products.forEach(product => {
-      if (product.category && product.price != null && CATEGORIES.includes(product.category)) {
-        productsByCategory[product.category].push(product)
-      }
-    })
-    
-    CATEGORIES.forEach(category => {
-      const categoryProducts = productsByCategory[category]
-      if (categoryProducts.length > 0) {
-        const selectedProduct = getRandomTopProduct(categoryProducts)
-        if (selectedProduct) {
-          splurgeItems.push(selectedProduct)
-        }
-      }
-    })
-    
-    
-    const shuffled = [...splurgeItems]
-    for (let i = shuffled.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]]
-    }
-    
-    return shuffled.slice(0, 8)
-  }, [getRandomTopProduct])
-
-  const fetchSplurgeProducts = useCallback(async () => {
+  const getRandomTopProduct = useCallback(async () => {
     try {
       setLoading(true)
-      
-      let products
-      
-      if (cachedData) {
-        products = cachedData
-      } else {
-        const response = await productAPI.getAllProducts()
-        if (response.success && response.products) {
-          products = response.products
-          setCachedData(response.products) 
-        } else {
-          throw new Error('No products found in response')
+
+    const fetchP = CATEGORIES.map(category => {
+      if(cachedData[category] && cachedData[category].length >= 80){
+        const topFive = [...cachedData[category]]
+        .sort((a,b) => (b.price || 0) - (a.price || 0))
+        .slice(0,5)
+        .map(product => ({
+          id: product.id || product._id,
+          name: product.name,
+          image: product.images?.[0]?.url || '',
+          price: product.price,
+          category: product.category
+        }))
+        return Promise.resolve({category, products: topFive, fromCache: true})
+      }
+      else{
+        return productAPI.getProductsByCategoryPaginated(category, 1, 80).then(response => {
+          if(response.success && response.products){
+            const products = response.products
+            const topFive = products.sort((a, b) => (b.price || 0) - (a.price || 0))
+              .slice(0, 5)
+              .map(product => ({
+                id: product.id || product._id,
+                name: product.name,
+                image: product.images?.[0]?.url || '',
+                price: product.price,
+                category: product.category
+              }))
+              return {category, products: topFive, rawData: products, fromCache: false}
+          }
+          return {category, products: [], fromCache: false}
+        })
+        .catch(e => {
+          console.error(`Error fetching ${category}`, e)
+          return {category, products: [], fromCache: false}
+        })
+      }
+    })
+
+    const results = await Promise.allSettled(fetchP)
+    const allTopFiveProducts = []
+    const cacheUpdates = {}
+    results.forEach(result => {
+      if(result.status === 'fulfilled'){
+        const{category, products, rawData, fromCache} = result.value
+        allTopFiveProducts.push(...products)
+
+        if(!fromCache && rawData){
+          cacheUpdates[category] = rawData
         }
       }
-      
-      const processedProducts = processProductsOptimized(products)
-      setSplurgeProducts(processedProducts)
-      
-    } catch (e) {
-      console.error('Error fetching splurge products: ', e)
-      if (cachedData) {
-        const processedProducts = processProductsOptimized(cachedData)
-        setSplurgeProducts(processedProducts)
-      } else {
-        setSplurgeProducts([])
-      }
-    } finally {
-      setLoading(false)
+    })
+    if(Object.keys(cacheUpdates).length > 0){
+      setCachedData(prev => ({...prev, ...cacheUpdates}))
     }
-  }, [cachedData, processProductsOptimized])
+    
+    const shuffled = [...allTopFiveProducts].sort(() => Math.random() - 0.5).slice(0,8)
+    setSplurgeProducts(shuffled)
+  } catch(error){
+    console.error('Error fetching splurge products:', error)
+    setSplurgeProducts([])
+  } finally {
+    setLoading(false)
+  }
+  }, [cachedData])
 
   useEffect(() => {
-    fetchSplurgeProducts()
-  }, [fetchSplurgeProducts])
-
+    getRandomTopProduct()
+  }, [getRandomTopProduct])
+  
   if (loading) {
     return (
       <div className="splurge">
