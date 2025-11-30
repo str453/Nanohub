@@ -1,6 +1,6 @@
 /* 
 Functional Requirement #8-11 Shopping Cart
-Functional Requirement #16 Checkout
+Functional Requirement #16 
 */
 
 import React, { useContext } from 'react'

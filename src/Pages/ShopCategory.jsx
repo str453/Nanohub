@@ -1,5 +1,6 @@
 /* 
 Functional Requirement #6-7 Viewing Product Details
+Functional Requirement #5
 */
 
 import React, { useState, useEffect} from 'react'

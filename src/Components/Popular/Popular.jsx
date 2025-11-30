@@ -1,4 +1,5 @@
 /* 
+Functional Requirement #1 - Home Page
 Functional Requirement #18 - Popular Items
 */
 

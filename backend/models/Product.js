@@ -1,4 +1,4 @@
-// FR #7
+// FR #7 
 // Use the mongoose instance that the caller provides (prevents multiple connections)
 
 module.exports = (mongoose) => {

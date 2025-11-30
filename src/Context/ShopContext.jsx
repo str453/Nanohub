@@ -1,3 +1,6 @@
+/*Functional Requirement #8-11 & 16 & 7
+
+*/
 import React, { createContext, useState, useEffect } from "react";
 import { productAPI } from '../services/api';
 

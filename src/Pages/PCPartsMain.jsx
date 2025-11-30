@@ -1,5 +1,6 @@
 /* 
 PC Parts Main Landing Page
+Functional Requirement #5-7
 */
 
 import React, { useContext, useEffect, useState } from 'react'

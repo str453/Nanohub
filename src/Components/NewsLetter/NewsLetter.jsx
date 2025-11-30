@@ -1,3 +1,6 @@
+/* 
+Functional Requirement #1 - Home Page
+*/
 import React from 'react'
 import './NewsLetter.css'
 

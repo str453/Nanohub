@@ -1,5 +1,7 @@
 /* 
 Functional Requirement #1 - Home Page
+Functional Requirement #18 
+Functional Requirement #5
 */
 
 import React from 'react'

@@ -1,3 +1,6 @@
+/* 
+Functional Requirement #1 - Home Page
+*/
 import React from 'react'
 import './Hero.css'
 import hand_icon from '../Assets/hand_icon.png'

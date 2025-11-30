@@ -1,3 +1,8 @@
+/* 
+Functional Requirement #1  
+Functional Requirement #18 
+
+*/
 import React, {useState, useEffect, useCallback} from 'react'
 import './Splurge.css'
 import {productAPI} from '../../services/api'

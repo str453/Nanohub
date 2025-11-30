@@ -1,3 +1,6 @@
+/*
+Functional Requirement #16
+*/
 import React, { useState, useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { loadStripe } from '@stripe/stripe-js';
