@@ -34,7 +34,7 @@ export const Product = () => {
         <Breadcrum product={product}/>
         <ProductDisplay product={product}/>
         <DescriptionBox/>
-        <RelatedProducts/>
+        <RelatedProducts currentProduct={product}/>
     </div>
   )
 }

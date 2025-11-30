@@ -16,26 +16,37 @@ export const ShopCategory = (props) => {
   const [allProducts, setAllProducts] = useState([]);
   const [sortBy, setSortBy] = useState('default');
   const [showDropdown, setDropdown] = useState(false);
+  const productsPerPage = 20;
+
+  const sortParamaters = (sortOption) => {
+    switch(sortOption){
+      case 'default':
+        return 'random';
+      case 'price-low-high':
+        return 'price_asc';
+      case 'price-high-low':
+        return 'price_desc';
+      default:
+        return '';
+    }
+  };
 
   useEffect(() => { 
-    const fetchCategoryProducts = async (page=1, limit=20) => {
+    const fetchCategoryProducts = async () => {
     try {
       setLoading(true);
-      const data = await productAPI.getProductsByCategoryPaginated(props.category, page, limit);
+
+      const sortParamater = sortParamaters(sortBy);
+      const data = await productAPI.getProductsByCategoryPaginated(props.category, 1, 500, sortParamater);
      
       let fetchedProducts = data?.products || [];
-
-      if(page === 1){
       setAllProducts(fetchedProducts);
-      setProducts(fetchedProducts);
-      } else {
-      const newAllProducts = [...allProducts, ...fetchedProducts];
-      setAllProducts(newAllProducts);
-      setProducts(newAllProducts);
-      }
+      
+      const firstProducts = fetchedProducts.slice(0, productsPerPage);
+      setProducts(firstProducts);
 
-      setHasMore(data.pagination?.next_page || false);
-      setCurrentPage(page);
+      setHasMore(fetchedProducts.length > productsPerPage);
+      setCurrentPage(1);
     }
     catch(e){
       console.error(`Error fetching ${props.category} products:`, e);
@@ -54,82 +65,41 @@ export const ShopCategory = (props) => {
     setHasMore(true);
 
     fetchCategoryProducts(1);
-  }, [props.category]); //eslint-disable-line
-
-  useEffect(() => {
-    if(sortBy === 'default'){
-      setProducts([...allProducts]);
-    } else{
-      const sorted = sortProducts([...allProducts], sortBy);
-      setProducts(sorted);
-    }
-  }, [sortBy, allProducts]);
-
-  const sortProducts = (productsToSort, sortType) => {
-    if(!productsToSort || !Array.isArray(productsToSort)) return [];
-    const sorted = [...productsToSort];
-    switch(sortType){
-      case 'price-low-high':
-        return sorted.sort((a,b) => (a.price || 0) - (b.price || 0));
-      case 'price-high-low':
-        return sorted.sort((a,b) => (b.price || 0) - (a.price || 0));
-      default:
-        return sorted;
-    }
-  };
-
-  const sortChange = (sortType) => {
-    setSortBy(sortType);
-    setDropdown(false);
-  };
+  }, [props.category, sortBy]); 
 
   const loadMoreProducts = () => {
     if(!loading && hasMore){
-      fetchMoreProducts();
-    }
-  };
-
-  const fetchMoreProducts = async () => {
-    try{
       setLoading(true);
+
       const nextPage = currentPage + 1;
-      const data = await productAPI.getProductsByCategoryPaginated(props.category, nextPage, 20);
+      const startIndex = 0;
+      const endIndex = nextPage * productsPerPage;
 
-      let newProducts = data?.products || [];
-
-      const updatedAllProducts = [...allProducts, ...newProducts];
-      setAllProducts(updatedAllProducts);
-
-      if(sortBy !== 'default'){
-        setProducts(updatedAllProducts);
-      } else{
-        const sortedProducts = sortProducts(updatedAllProducts, sortBy);
-        setProducts(sortedProducts);
-      }
-
-      setHasMore(data.pagination?.next_page || false);
+      const nextProducts = allProducts.slice(startIndex, endIndex);
+      setProducts(nextProducts);
       setCurrentPage(nextPage);
-    }
-    catch(e) {
-      console.error(`Error fetching more ${props.category} products`, e);
-    }
-    finally{
+      setHasMore(endIndex < allProducts.length);
+
       setLoading(false);
     }
   };
 
+  const sortChange = (sortOption) => {
+    setSortBy(sortOption);
+    setDropdown(false);
+  };
+
   const productCount = products.length;
-  const displayCount = Math.min(productCount, 20 * currentPage);
-
+  const totalProducts = allProducts.length;
+  const displayCount = Math.min(productCount, currentPage * productsPerPage);
   
-
   return (
     <div className='shop-category'>
       <img className='shopcategory-banner'src={props.banner} alt="" />
       <div className="shopcategory-indexSort">
         <p>
-          <span>Showing 1-{displayCount}</span> products
-          {hasMore && ` (more available)`}
+          <span>Showing 1-{displayCount}</span> products out of {totalProducts} products
+          {hasMore && ` (${totalProducts - displayCount} more available)`}
         </p>
         <div className="shopcategory-sort" onClick={() => setDropdown(!showDropdown)}>
           Sort by <img src={dropdown_icon} alt="" />
@@ -151,7 +121,7 @@ export const ShopCategory = (props) => {
 
       <div className="shopcategory-products">
         {products.map((item,i)=> (
-           <Item key={i} id={item._id || item.id} name={item.name} image={item.images && item.images.length > 0 ? item.images[0].url: '/placeholder.png'} price={item.price}/>
+           <Item key={i} id={item._id || item.id} name={item.name} image={item.images && item.images.length > 0 ? item.images[0].url: ''} price={item.price}/>
         ))}
       </div>
 

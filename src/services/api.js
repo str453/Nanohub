@@ -44,8 +44,13 @@ export const productAPI = {
         return response.data;
     },
 
-    getProductsByCategoryPaginated: async (category, page=1, limit=20) =>{
-        const response = await api.get(`/product/category/${category}?page=${page}&limit=${limit}`);
+    getProductsByCategoryPaginated: async (category, page=1, limit=20, sort='') =>{
+        let url = `/product/category/${category}?page=${page}&limit=${limit}`;
+
+        if(sort){
+            url += `&sort=${sort}`;
+        }
+        const response = await api.get(url);
         return response.data;
     },
 
