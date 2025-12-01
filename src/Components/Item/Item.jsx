@@ -7,9 +7,22 @@ export const Item = (props) => {
     window.scrollTo(0,0);
   };
 
+  // Calculate discounted price if applicable
+  const getDisplayPrice = () => {
+    if (props.discount?.isActive && props.discount?.percentage) {
+      return (props.price * (1 - props.discount.percentage / 100)).toFixed(2);
+    }
+    return props.price?.toFixed(2) || '0.00';
+  };
+
+  const hasDiscount = props.discount?.isActive && props.discount?.percentage;
+
   return (
     <div className='item'>
         <Link to={`/product/${props.id}`}><img onClick={handleClick} src={props.image} alt="" /></Link>
+        {hasDiscount && (
+          <span className="item-discount-badge">-{props.discount.percentage}%</span>
+        )}
         {props.category && (
           <div className="item-category">
             {props.category}
@@ -17,9 +30,20 @@ export const Item = (props) => {
         )}
         <p>{props.name}</p>
         <div className="item-prices">
-            <div className="item-price">
-                ${props.price?.toFixed(2) || '0.00'}
-            </div>
+            {hasDiscount ? (
+              <>
+                <div className="item-price discount-price">
+                    ${getDisplayPrice()}
+                </div>
+                <div className="item-original-price">
+                    ${props.price?.toFixed(2) || '0.00'}
+                </div>
+              </>
+            ) : (
+              <div className="item-price">
+                  ${props.price?.toFixed(2) || '0.00'}
+              </div>
+            )}
         </div>
     </div>    
   )

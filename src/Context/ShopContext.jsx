@@ -58,7 +58,8 @@ const ShopContextProvider = (props) => {
                         inStock: product.inStock,
                         images: imagesArray,
                         image_urls: product.image_urls, // Pass through in case it's needed
-                        stockQuantity: product.stockQuantity
+                        stockQuantity: product.stockQuantity,
+                        discount: product.discount // Include discount info
                     };
                 });
                 
@@ -104,8 +105,12 @@ const ShopContextProvider = (props) => {
             if (cartItems[item] > 0) {
                 let itemInfo = all_product.find((product) => product.id === item);
                 if (itemInfo) {
-                    // Use price field (not new_price which doesn't exist)
-                    totalAmount += itemInfo.price * cartItems[item];
+                    // Calculate price considering discount
+                    let itemPrice = itemInfo.price;
+                    if (itemInfo.discount?.isActive && itemInfo.discount?.percentage) {
+                        itemPrice = itemInfo.price * (1 - itemInfo.discount.percentage / 100);
+                    }
+                    totalAmount += itemPrice * cartItems[item];
                 }
             }
         }

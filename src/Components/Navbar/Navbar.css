@@ -60,6 +60,49 @@
     background: #FF4141;
 }
 
+.nav-search-bar{
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: white;
+    border: 2px solid #e0e0e0;
+    border-radius: 25px;
+    padding: 8px 16px;
+    flex-shrink: 0;
+    height: clamp(35px, 5vw, 50px);
+}
+
+.nav-search-bar input{
+    border: none;
+    outline: none;
+    background: transparent;
+    font-size: clamp(12px, 1.2vw, 16px);
+    color: #515151;
+    width: clamp(120px, 15vw, 200px);
+    font-family: inherit;
+}
+
+.nav-search-bar input::placeholder{
+    color: #a0a0a0;
+}
+
+.nav-search-bar button{
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    font-size: clamp(14px, 1.5vw, 18px);
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #515151;
+    transition: all 0.2s ease;
+}
+
+.nav-search-bar button:hover{
+    color: #FF4141;
+}
+
 .nav-login-cart{
     display: flex;
     align-items: center;

@@ -111,7 +111,8 @@ export const PCPartsMain = () => {
                   id={product.id}
                   name={product.name}
                   image={product.image}
-                  price={ product.price}
+                  price={product.price}
+                  discount={product.discount}
                 />
               ))}
             </div>

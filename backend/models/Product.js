@@ -63,6 +63,20 @@ module.exports = (mongoose) => {
         type: Number,
         default: 0
       }
+    },
+    discount: {
+      isActive: {
+        type: Boolean,
+        default: false
+      },
+      percentage: {
+        type: Number,
+        default: 0,
+        min: [0, 'Discount cannot be negative'],
+        max: [100, 'Discount cannot exceed 100%']
+      },
+      startDate: Date,
+      endDate: Date
     }
   }, { timestamps: true });
 

@@ -22,6 +22,34 @@
 .carticon-product-icon{
     height: 62px;
 }
+
+.cart-price-section {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    position: relative;
+}
+
+.cart-discounted-price {
+    color: #ff4141 !important;
+    font-weight: 700 !important;
+}
+
+.cart-original-price {
+    color: #999 !important;
+    text-decoration: line-through !important;
+    font-size: 14px !important;
+    font-weight: 400 !important;
+}
+
+.cart-discount-badge {
+    background: #ff4141;
+    color: white;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-size: 11px;
+    font-weight: 600;
+}
 .cartitems-remove-icon{
     width: 15px;
     margin: 0px 40px;

@@ -14,7 +14,7 @@ export const Popular = () => {
 
   useEffect(() => {
     fetchRandomProducts()
-  }, [])
+  }, []) // Runs once on mount - randomizes on every page refresh
   
   const fetchRandomProducts = async () => {
     try{
@@ -79,7 +79,7 @@ export const Popular = () => {
       <hr />
       <div className="popular-item">
         {popularProdcuts.map((item, i) => (
-          <Item key={i} id={item.id} name={item.name} image={item.image} price={item.price} category={item.category}/>
+          <Item key={i} id={item.id} name={item.name} image={item.image} price={item.price} category={item.category} discount={item.discount}/>
         ))}
       </div>
 
