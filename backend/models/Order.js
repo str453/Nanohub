@@ -1,5 +1,4 @@
 ////FR# 7
-////FR#
 const mongoose = require('mongoose');
 
 const orderItemSchema = new mongoose.Schema({
