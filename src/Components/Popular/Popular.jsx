@@ -14,7 +14,7 @@ export const Popular = () => {
 
   useEffect(() => {
     fetchRandomProducts()
-  }, [])
+  }, []) // Runs once on mount - randomizes on every page refresh
   
   const fetchRandomProducts = async () => {
     try{

@@ -31,8 +31,8 @@ function AppContent() {
         
         {/* Sub-category pages for each PC part type */}
         <Route path='/PC-Parts/CPU' element={<ShopCategory banner={pc_part_banner} category="CPU"/>}/>
-        <Route path='/PC-Parts/GPU' element={<ShopCategory banner={pc_part_banner} category="GPU"/>}/>
-        <Route path='/PC-Parts/Monitor' element={<ShopCategory banner={pc_part_banner} category="Monitor"/>}/>
+        <Route path='/PC-Parts/GPU' element={<ShopCategory banner={pc_part_banner} category="GPU" categoryDisplay="Graphics Cards (GPUs)"/>}/>
+        <Route path='/PC-Parts/Monitor' element={<ShopCategory banner={pc_part_banner} category="Monitor" categoryDisplay="Monitors"/>}/>
         <Route path='/PC-Parts/Motherboard' element={<ShopCategory banner={pc_part_banner} category="Motherboard"/>}/>
         <Route path='/PC-Parts/Case' element={<ShopCategory banner={pc_part_banner} category="Case"/>}/>
         <Route path='/PC-Parts/Cooling' element={<ShopCategory banner={pc_part_banner} category="Cooling"/>}/>

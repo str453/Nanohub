@@ -1,8 +1,72 @@
-.shopcategory-banner{
-    display: block;
+.shopcategory-banner-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     margin: 30px auto;
     width: 82%;
+    height: 300px;
+    border-radius: 10px;
+    overflow: hidden;
 }
+
+.shopcategory-banner {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: none;
+}
+
+.banner-text-overlay {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    color: white;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+
+.banner-text-overlay h1 {
+    font-size: 50px;
+    font-weight: 700;
+    margin: 0 0 15px 0;
+}
+
+.banner-text-overlay p {
+    font-size: 18px;
+    margin: 5px 0;
+    font-weight: 500;
+}
+
+/* Category-specific banner styles */
+.category-gpu {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.category-monitor {
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+}
+
+.category-cpu {
+    background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+}
+
+.category-motherboard {
+    background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+}
+
+.category-case {
+    background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+}
+
+.category-cooling {
+    background: linear-gradient(135deg, #30cfd0 0%, #330867 100%);
+}
+
+.category-storage {
+    background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+}
+
 .shopcategory-indexSort{
     display: flex;
     margin: 0px 10%;

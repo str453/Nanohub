@@ -19,6 +19,25 @@ export const ShopCategory = (props) => {
   const [showDropdown, setDropdown] = useState(false);
   const productsPerPage = 20;
 
+  // Get category display name
+  const getCategoryDisplayName = () => {
+    // Use custom categoryDisplay prop if provided
+    if (props.categoryDisplay) {
+      return props.categoryDisplay;
+    }
+    
+    const names = {
+      'GPU': 'Graphics Cards (GPUs)',
+      'Monitor': 'Monitors',
+      'CPU': 'Processors (CPUs)',
+      'Motherboard': 'Motherboards',
+      'Case': 'PC Cases',
+      'Cooling': 'CPU Coolers',
+      'Storage': 'Storage (HDD/SSD)'
+    };
+    return names[props.category] || props.category;
+  };
+
   const sortParamaters = (sortOption) => {
     switch(sortOption){
       case 'default':
@@ -96,7 +115,18 @@ export const ShopCategory = (props) => {
   
   return (
     <div className='shop-category'>
-      <img className='shopcategory-banner'src={props.banner} alt="" />
+      {/* Custom Banner per Category */}
+      <div className={`shopcategory-banner-container category-${props.category.toLowerCase()}`}>
+        {props.banner && <img className='shopcategory-banner' src={props.banner} alt={props.category} />}
+        <div className="banner-text-overlay">
+          <h1>{getCategoryDisplayName()}</h1>
+          <p>Build your dream PC with premium components</p>
+          <p style={{fontSize: '14px', marginTop: '10px'}}>
+            Showing {totalProducts} products
+          </p>
+        </div>
+      </div>
+
       <div className="shopcategory-indexSort">
         <p>
           <span>Showing 1-{displayCount}</span> products out of {totalProducts} products
