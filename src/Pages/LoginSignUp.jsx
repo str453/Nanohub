@@ -172,7 +172,10 @@ export const LoginSignUp = () => {
         setTimeout(() => {
           if (response.user.role === 'admin') {
             // Redirect admins to admin panel (separate app on port 5173)
-            window.location.href = 'http://localhost:5173';
+            // Pass token and user data via URL parameters
+            const token = response.token;
+            const userData = JSON.stringify(response.user);
+            window.location.href = `http://localhost:5173?token=${encodeURIComponent(token)}&user=${encodeURIComponent(userData)}`;
           } else {
             // Redirect regular users to home page
             navigate('/');

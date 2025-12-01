@@ -1,8 +1,8 @@
 username,password,first_name,last_name,address1,city,state,postal_code,email,phone,date_of_birth,created_at,role
-Jestrada491,CPSC491,Jake,Estrada,1030 Calle Sombra,San Clemente,CA,92672,Jestrada309@csu.fullerton.edu,949-525-3135,1995-08-15,2025-11-11T07:50:22.055247,Admin
-Htran491,CPSC491,Hubert,Tran,27572 Sweetbrier ln,Mission Viejo,CA,92691,huberttranstemclub@gmail.com,949-525-3136,2000-11-15,2025-11-11T07:50:22.055247,Admin
-Ktran491,CPSC491,Kenneth,Tran,22 La Ronda,Irvine,CA,92606,kqmtran@csu.fullerton.edu,949-525-3137,2000-11-15,2025-11-11T07:50:22.055247,Admin
-EMartinez491,CPSC491,Eduardo,Salvador-Martinez,52 Carriage Hill Ln,Laguna Hills,CA,92653,eduardosal714@csu.fullerton.edu,949-525-3138,2000-11-15,2025-11-11T07:50:22.055247,Admin
+Jestrada491,CPSC491!,Jake,Estrada,1030 Calle Sombra,San Clemente,CA,92672,Jestrada309@csu.fullerton.edu,949-525-3135,1995-08-15,2025-11-11T07:50:22.055247,Admin
+Htran491,CPSC491!,Hubert,Tran,27572 Sweetbrier ln,Mission Viejo,CA,92691,huberttranstemclub@gmail.com,949-525-3136,2000-11-15,2025-11-11T07:50:22.055247,Admin
+Ktran491,CPSC491!,Kenneth,Tran,22 La Ronda,Irvine,CA,92606,kqmtran@csu.fullerton.edu,949-525-3137,2000-11-15,2025-11-11T07:50:22.055247,Admin
+EMartinez491,CPSC491!,Eduardo,Salvador-Martinez,52 Carriage Hill Ln,Laguna Hills,CA,92653,eduardosal714@csu.fullerton.edu,949-525-3138,2000-11-15,2025-11-11T07:50:22.055247,Admin
 rudy_312,xcr666,Genia,Watrous,1818 State Route 3,Fulton,NY,13069,rudy.312@yahoo.com,171-048-1405,1969-12-28,2025-02-12T07:50:22.055247,Customer
 dugi22,AZIJxNnCvu,Ladawn,Ates,517 West Avalon Ave,Muscle Shoals,AL,35661,dugi22@yahoo.com,175-403-4543,1988-03-29,2024-12-26T08:25:03.624079,Customer
 MasterSystem,jUptM0ut6K,Rosalia,Rinaldo,2780 John Hawkins Pkwy,Hoover,AL,35244,mastersystem@hotmail.com,482-927-4317,1999-01-26,2024-01-23T03:35:57.173634,Customer

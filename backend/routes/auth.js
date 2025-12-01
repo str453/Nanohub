@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const User = require('../models/User.js');
 const jwt = require('jsonwebtoken');
+const auth = require('../middleware/auth.js');
 
 const generateToken = (id) => {
     return jwt.sign({id}, process.env.JWT_SECRET || 'temp_secret_key', {
@@ -36,6 +37,115 @@ router.get('/check-username/:username', async (req, res) => {
         res.status(500).json({
             success: false,
             error: 'Error checking username'
+        });
+    }
+});
+
+// Register new admin (admin only)
+router.post('/register-admin', auth, async (req, res) => {
+    try {
+        // Verify the requester is an admin
+        if (req.user.role !== 'admin') {
+            return res.status(403).json({
+                success: false,
+                error: 'Admin access required to create new admins'
+            });
+        }
+        
+        const {
+            username,
+            firstName,
+            lastName,
+            email,
+            password,
+            address,
+            city,
+            state,
+            postal_code,
+            phone,
+            date_of_birth
+        } = req.body;
+
+        // Check if username exists
+        const usernameExists = await User.findOne({ username: username.toLowerCase() });
+        if(usernameExists){
+            return res.status(400).json({
+                success: false,
+                error: 'Username already exists'
+            });
+        }
+
+        // Check if email exists
+        const emailExists = await User.findOne({ email: email.toLowerCase() });
+        if(emailExists){
+            return res.status(400).json({
+                success: false,
+                error: 'User associated with email exists'
+            });
+        }
+
+        // Create full name from first and last name
+        const name = `${firstName} ${lastName}`.trim();
+
+        // Create user with admin role
+        const user = await User.create({
+            username: username.toLowerCase(),
+            name,
+            firstName,
+            lastName,
+            email: email.toLowerCase(),
+            password,
+            address: {
+                street: address || '',
+                city: city || '',
+                state: state || '',
+                zipcode: postal_code || '',
+                country: 'USA'
+            },
+            phone: phone ? phone.replace(/\D/g, '') : undefined,
+            dateOfBirth: date_of_birth ? new Date(date_of_birth) : undefined,
+            role: 'admin' // Set role to admin
+        });
+
+        if(user){
+            res.status(201).json({
+                success: true,
+                message: 'Admin successfully created',
+                user: {
+                    id: user._id,
+                    username: user.username,
+                    name: user.name,
+                    firstName: user.firstName,
+                    lastName: user.lastName,
+                    email: user.email,
+                    role: user.role,
+                    address: user.address,
+                    phone: user.phone
+                }
+            });
+        }
+    } catch(error){
+        console.error('Error creating admin:', error);
+        
+        if(error.name === 'ValidationError'){
+            const errors = Object.values(error.errors).map(err => err.message);
+            return res.status(400).json({
+                success: false,
+                error: errors.join(', ')
+            });
+        }
+
+        if(error.code === 11000){
+            const field = Object.keys(error.keyPattern)[0];
+            return res.status(400).json({
+                success: false,
+                error: `${field} already exists`
+            });
+        }
+
+        res.status(500).json({
+            success: false,
+            error: error.message || 'Error creating admin'
         });
     }
 });
@@ -161,6 +271,9 @@ router.post('/login', async(req, res) => {
                 user: {
                     id: user._id,
                     name: user.name,
+                    firstName: user.firstName,
+                    lastName: user.lastName,
+                    username: user.username,
                     email: user.email,
                     role: user.role,
                     address: user.address,
