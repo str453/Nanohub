@@ -23,11 +23,13 @@ app.use((req, res, next) => {
 const product_routes = require('./routes/product.js');
 const auth_routes = require('./routes/auth.js');
 const payment_routes = require('./routes/payment.js');
+const user_routes = require('./routes/user.js');
 
 
 app.use('/api/product', product_routes);
 app.use('/api/auth', auth_routes);
 app.use('/api/payment', payment_routes);
+app.use('/api/user', user_routes);
 
 
 app.get('/', (req, res) => {

@@ -188,5 +188,147 @@ router.get('/orders/:id', auth, async (req, res) => {
   }
 });
 
+// Get all orders (Admin only)
+router.get('/admin/orders', auth, async (req, res) => {
+  try {
+    // Check if user is admin
+    if (req.user.role !== 'admin') {
+      return res.status(403).json({
+        success: false,
+        error: 'Admin access required'
+      });
+    }
+
+    const orders = await Order.find({})
+      .populate({
+        path: 'user',
+        select: 'name firstName lastName email phone'
+      })
+      .populate({
+        path: 'orderItems.product',
+        select: 'name images price category brand'
+      })
+      .sort({ createdAt: -1, _id: -1 });
+
+    res.json({
+      success: true,
+      orders
+    });
+  } catch (error) {
+    console.error('Error fetching all orders:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Failed to fetch orders'
+    });
+  }
+});
+
+// Get order locations for map markers - Admin only
+router.get('/admin/order-locations', auth, async (req, res) => {
+  try {
+    // Check if user is admin
+    if (req.user.role !== 'admin') {
+      return res.status(403).json({
+        success: false,
+        error: 'Admin access required'
+      });
+    }
+
+    // Get all orders with shipping addresses
+    const orders = await Order.find({
+      'shippingAddress.street': { $exists: true, $ne: '' },
+      'shippingAddress.city': { $exists: true, $ne: '' },
+      'shippingAddress.state': { $exists: true, $ne: '' }
+    })
+    .select('shippingAddress totalPrice createdAt')
+    .limit(1000); // Limit to prevent too many markers
+
+    // Format addresses for geocoding
+    const locations = orders.map(order => {
+      const addr = order.shippingAddress;
+      const fullAddress = `${addr.street || ''}, ${addr.city || ''}, ${addr.state || ''} ${addr.zipCode || ''}, ${addr.country || 'USA'}`.trim();
+      
+      return {
+        orderId: order._id,
+        address: fullAddress,
+        street: addr.street,
+        city: addr.city,
+        state: addr.state,
+        zipCode: addr.zipCode,
+        country: addr.country || 'USA',
+        totalPrice: order.totalPrice,
+        createdAt: order.createdAt
+      };
+    });
+
+    res.json({
+      success: true,
+      locations
+    });
+  } catch (error) {
+    console.error('Error fetching order locations:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Failed to fetch order locations'
+    });
+  }
+});
+
+// Get geography data (sales by country, focused on USA) - Admin only
+router.get('/admin/geography', auth, async (req, res) => {
+  try {
+    // Check if user is admin
+    if (req.user.role !== 'admin') {
+      return res.status(403).json({
+        success: false,
+        error: 'Admin access required'
+      });
+    }
+
+    // Aggregate orders by country (most of your orders are USA)
+    const geographyData = await Order.aggregate([
+      {
+        $group: {
+          _id: '$shippingAddress.country',
+          value: { $sum: '$totalPrice' },
+          count: { $sum: 1 }
+        }
+      }
+    ]);
+
+    // Map country names/codes to ISO3 IDs used by the geoFeatures (e.g. 'USA')
+    const countryCodeMap = {
+      'USA': 'USA',
+      'US': 'USA',
+      'United States': 'USA',
+      'United States of America': 'USA'
+    };
+
+    const formattedData = geographyData
+      .map(item => {
+        const raw = item._id || 'USA';
+        const id = countryCodeMap[raw] || raw;
+        return {
+          id,
+          value: Math.round(item.value),
+          country: raw
+        };
+      })
+      // Only keep countries that exist in the world map data
+      .filter(item => !!item.id);
+
+    res.json({
+      success: true,
+      data: formattedData
+    });
+  } catch (error) {
+    console.error('Error fetching geography data:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Failed to fetch geography data'
+    });
+  }
+});
+
 module.exports = router;
 
