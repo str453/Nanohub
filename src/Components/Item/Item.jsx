@@ -10,6 +10,11 @@ export const Item = (props) => {
   return (
     <div className='item'>
         <Link to={`/product/${props.id}`}><img onClick={handleClick} src={props.image} alt="" /></Link>
+        {props.category && (
+          <div className="item-category">
+            {props.category}
+          </div>
+        )}
         <p>{props.name}</p>
         <div className="item-prices">
             <div className="item-price">

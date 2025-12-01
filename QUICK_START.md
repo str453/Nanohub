@@ -67,7 +67,7 @@ npm install
 
 ## 🎮 Running the Application
 
-You need **two terminal windows** open:
+You need **three terminal windows** open:
 
 ### Terminal 1 - Backend Server:
 ```bash
@@ -78,10 +78,17 @@ npm run dev
 
 ### Terminal 2 - Frontend Server:
 ```bash
+cd ..
 npm start
 ```
 ✅ Browser should automatically open to `http://localhost:3000`
 
+### Terminal 3 - Backend for Chat Bot:
+```bash
+node server.js
+```
+✅ You will see: API on 'http://localhost:3001'
+✅ Mongo connected successfully
 ---
 
 ## 🎯 What's Running?
@@ -90,6 +97,7 @@ npm start
 |-----------|-----|---------|
 | Frontend | http://localhost:3000 | The website UI |
 | Backend API | http://localhost:5000 | Data and authentication |
+| Groq API | http://localhost:3001 | API to access chatbot AI |
 | MongoDB | (internal) | Database storage |
 
 ---
@@ -131,7 +139,8 @@ Nanohub/
 │   └── services/
 │       └── api.js              # Functions to call backend API
 │
-└── admin/                       # Admin panel (separate app)
+├── admin/                       # Admin panel (separate app)
+└── server.js                    # Main server for chat bot
 ```
 
 ---

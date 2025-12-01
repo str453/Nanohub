@@ -3,23 +3,33 @@
     flex-direction: column;
     align-items: center;
     gap: 10px;
-    height: 90vh;
+    height: auto;
+    min-height: 90vh;
+    padding: 0 5px;
+    margin-bottom: 40px
 }
 .popular h1{
     color: #171717;
-    font-size: 50px;
+    font-size: clamp(32px, 5vw, 50px);
     font-weight: 600;
+    text-align: center;
 }
 .popular hr{
-    width: 200px;
+    width: clamp(150px, 30vw, 200px);
     height: 6px;
     border-radius: 10px;
     background-color: #252525;
 }
 .popular-item {
   margin-top: 50px;
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 30px;
+  width: 100%;
+  max-width: 1200px;
+  padding: 0 20px;
+  justify-items: center;
+  justify-content: center;
 }
 .popular-item img {
   max-width: 100%;

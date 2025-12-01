@@ -75,14 +75,15 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  gap: 40px;
+  gap: 0px;
   width: 100%;
 }
 
 .products-grid > * {
-  flex: 0 1 calc(14.28% - 34px);
+  flex: 0 1 calc(16.66% - 34px);
   min-width: 180px;
   max-width: 240px;
+  overflow: hidden;
 }
 
 /* Responsive Design */

@@ -15,15 +15,22 @@ app.use(cors({
 
 app.use(express.json());
 
+// Add request logging
+app.use((req, res, next) => {
+  next();
+});
+
 const product_routes = require('./routes/product.js');
 const auth_routes = require('./routes/auth.js');
 const payment_routes = require('./routes/payment.js');
 const user_routes = require('./routes/user.js');
 
+
 app.use('/api/product', product_routes);
 app.use('/api/auth', auth_routes);
 app.use('/api/payment', payment_routes);
 app.use('/api/user', user_routes);
+
 
 app.get('/', (req, res) => {
   res.json({
@@ -49,7 +56,6 @@ app.use('/api/*', (req, res) => {
     error: 'Route for API not found'
   })
 });
-
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {

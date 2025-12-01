@@ -6,7 +6,7 @@ export default function ChatWidget() {
   return (
     <>
       <button className="chat-trigger" onClick={() => setOpen(true)}>
-        💬 Chat
+        💬 Chat Bot
       </button>
       {open && <ChatModal onClose={() => setOpen(false)} />}
     </>

@@ -46,7 +46,7 @@ const OrderHistory = () => {
         }
       } catch (err) {
         console.error('Error fetching orders:', err);
-        setError('Failed to load order history');
+        setError('No order history found');
       } finally {
         setLoading(false);
       }

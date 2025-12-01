@@ -10,11 +10,10 @@ import Cart from './Pages/Cart'
 import Checkout from './Pages/Checkout'
 import OrderSuccess from './Pages/OrderSuccess'
 import OrderHistory from './Pages/OrderHistory'
-import Chat from './Pages/Chat';
+import ChatWidget from './Components/ChatBot/ChatBot';
 import LoginSignUp from './Pages/LoginSignUp'
 import Footer from './Components/Footer/Footer'
 import pc_part_banner from './Components/Assets/banner_mens.png'
-
 import computer_banner from './Components/Assets/banner_kids.png'
 
 function AppContent() {
@@ -39,7 +38,7 @@ function AppContent() {
         <Route path='/PC-Parts/Cooling' element={<ShopCategory banner={pc_part_banner} category="Cooling"/>}/>
         <Route path='/PC-Parts/Storage' element={<ShopCategory banner={pc_part_banner} category="Storage"/>}/>
         
-         {/* Direct GPU route for navbar */}
+         {/* Direct routes for navbar */}
         <Route path='/CPU' element={<ShopCategory banner={pc_part_banner} category="CPU"/>}/>
         <Route path='/GPU' element={<ShopCategory banner={pc_part_banner} category="GPU"/>}/>
         <Route path='/Monitor' element={<ShopCategory banner={pc_part_banner} category="Monitor"/>}/>
@@ -53,8 +52,8 @@ function AppContent() {
         <Route path='/order-success' element={<OrderSuccess/>}/>
         <Route path='/orders' element={<OrderHistory/>}/>
         <Route path='/login' element={<LoginSignUp/>}/>
-        <Route path='/chat' element={<Chat/>}/>
       </Routes>
+      <ChatWidget/>
       {!hideFooter && <Footer/>}
     </>
   );

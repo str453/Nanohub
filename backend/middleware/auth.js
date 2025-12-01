@@ -1,4 +1,4 @@
-//esm
+//FR 2-4
 const jwt = require('jsonwebtoken');
 const User = require('../models/User.js');
 

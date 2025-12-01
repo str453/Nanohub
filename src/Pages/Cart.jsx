@@ -1,5 +1,6 @@
 /* 
 Functional Requirement #8-11 Shopping Cart
+Functional Requirement #16
 */
 
 import React from 'react'

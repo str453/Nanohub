@@ -1,3 +1,7 @@
+/*
+Functional Requirement #5
+Functional Requirement #6-8
+*/
 import React, { useContext } from 'react'
 import { ShopContext } from '../Context/ShopContext'
 import { useParams } from 'react-router-dom'
@@ -34,7 +38,7 @@ export const Product = () => {
         <Breadcrum product={product}/>
         <ProductDisplay product={product}/>
         <DescriptionBox/>
-        <RelatedProducts/>
+        <RelatedProducts currentProduct={product}/>
     </div>
   )
 }

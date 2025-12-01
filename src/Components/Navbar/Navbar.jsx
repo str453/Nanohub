@@ -1,9 +1,9 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import './Navbar.css'
 
 import logo from '../Assets/logo.png'
 import cart_icon from '../Assets/cart_icon.png'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { ShopContext } from '../../Context/ShopContext'
 import { useAuth } from '../../Context/AuthContext'
 
@@ -13,6 +13,21 @@ export const Navbar = () => {
     const {getTotalCartItems} = useContext(ShopContext);
     const { user, logout } = useAuth();
     const navigate = useNavigate();
+    const location = useLocation();
+
+    useEffect(() => {
+        const current = location.pathname;
+
+        if(current === '/'){
+            setMenu("shop");
+        } else if(current === '/PC-Parts'){
+            setMenu("PC-Parts");
+        } else if(current === '/GPU'){
+            setMenu("GPU");
+        } else if(current === '/Monitor'){
+            setMenu("Monitor");
+        }
+    }, [location.pathname])
 
     const handleLogout = () => {
         logout();
@@ -30,13 +45,12 @@ export const Navbar = () => {
             <li onClick={()=>{setMenu("PC-Parts")}}><Link style={{ textDecoration: 'none' }} to='/PC-Parts'>PC Parts</Link>{menu==="PC-Parts"?<hr/>:<></>}</li>
             <li onClick={()=>{setMenu("GPU")}}><Link style={{ textDecoration: 'none' }} to='/GPU'>GPUs</Link>{menu==="GPU"?<hr/>:<></>}</li>
             <li onClick={()=>{setMenu("Monitor")}}><Link style={{ textDecoration: 'none' }} to='/Monitor'>Monitor</Link>{menu==="Monitor"?<hr/>:<></>}</li>
-            <li onClick={()=>{setMenu("ChatBot")}}><Link style={{ textDecoration: 'none' }} to='/chat'>Chat Bot</Link>{menu==="ChatBot" ? <hr/> : null}</li>
         </ul>
         <div className="nav-login-cart">
             {user ? (
                 <button onClick={handleLogout}>Logout</button>
             ) : (
-                <Link style={{ textDecoration: 'none' }} to='/login'><button>Login</button></Link>
+                <Link style={{ textDecoration: 'none' }} to='/login' onClick={(e) => {if(location.pathname === '/login') {e.preventDefault(); window.location.reload();}}}><button>Login</button></Link>
             )}
             <Link style={{ textDecoration: 'none' }} to={user ? '/orders' : '/login'}>
                 <div className="nav-user-icon">

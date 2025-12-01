@@ -1,8 +1,9 @@
 /* 
 Functional Requirement #6-7 Viewing Product Details
+Functional Requirement #5
 */
 
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect} from 'react'
 import './CSS/ShopCategory.css'
 import {productAPI} from '../services/api'
 import dropdown_icon from '../Components/Assets/dropdown_icon.png'
@@ -13,28 +14,45 @@ export const ShopCategory = (props) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
   const [products, setProducts] = useState([]);
+  const [allProducts, setAllProducts] = useState([]);
+  const [sortBy, setSortBy] = useState('default');
+  const [showDropdown, setDropdown] = useState(false);
+  const productsPerPage = 20;
+
+  const sortParamaters = (sortOption) => {
+    switch(sortOption){
+      case 'default':
+        return 'random';
+      case 'price-low-high':
+        return 'price_asc';
+      case 'price-high-low':
+        return 'price_desc';
+      default:
+        return '';
+    }
+  };
 
   useEffect(() => { 
-    const fetchCategoryProducts = async (page=1, limit=20) => {
+    const fetchCategoryProducts = async () => {
     try {
       setLoading(true);
-      console.log(`Fetching ${props.category} products page ${page}`);
 
-      const data = await productAPI.getProductsByCategoryPaginated(props.category, page, limit);
-      console.log(`Got ${data.products?.length || 0} ${props.category} products on page ${page}`);
+      const sortParamater = sortParamaters(sortBy);
+      const data = await productAPI.getProductsByCategoryPaginated(props.category, 1, 500, sortParamater);
+     
+      let fetchedProducts = data?.products || [];
+      setAllProducts(fetchedProducts);
+      
+      const firstProducts = fetchedProducts.slice(0, productsPerPage);
+      setProducts(firstProducts);
 
-      if(page === 1){
-      setProducts(data.products || []);
-      } else {
-      setProducts(prev => [...prev, ...(data.products || [])]);
-      }
-
-      setHasMore(data.pagination?.next_page || false);
-      setCurrentPage(page);
+      setHasMore(fetchedProducts.length > productsPerPage);
+      setCurrentPage(1);
     }
     catch(e){
       console.error(`Error fetching ${props.category} products:`, e);
       setProducts([]);
+      setAllProducts([]);
       setHasMore(false);
     }
     finally {
@@ -43,66 +61,78 @@ export const ShopCategory = (props) => {
   };
 
     setProducts([]);
+    setAllProducts([]);
     setCurrentPage(1);
     setHasMore(true);
 
     fetchCategoryProducts(1);
-  }, [props.category]);
+  }, [props.category, sortBy]); 
 
   const loadMoreProducts = () => {
     if(!loading && hasMore){
-      fetchMoreProducts();
-    }
-  };
-
-  const fetchMoreProducts = async () => {
-    try{
       setLoading(true);
-      const nextPage = currentPage + 1;
-      const data = await productAPI.getProductsByCategoryPaginated(props.category, nextPage, 20);
 
-      setProducts(prev => [...prev, ...(data.products || [])]);
-      setHasMore(data.pagination?.next_page || false);
+      const nextPage = currentPage + 1;
+      const startIndex = 0;
+      const endIndex = nextPage * productsPerPage;
+
+      const nextProducts = allProducts.slice(startIndex, endIndex);
+      setProducts(nextProducts);
       setCurrentPage(nextPage);
-    }
-    catch(e) {
-      console.error(`Error fetching more ${props.category} products`, e);
-    }
-    finally{
+      setHasMore(endIndex < allProducts.length);
+
       setLoading(false);
     }
   };
 
+  const sortChange = (sortOption) => {
+    setSortBy(sortOption);
+    setDropdown(false);
+  };
+
   const productCount = products.length;
-
+  const totalProducts = allProducts.length;
+  const displayCount = Math.min(productCount, currentPage * productsPerPage);
   
-
   return (
     <div className='shop-category'>
       <img className='shopcategory-banner'src={props.banner} alt="" />
       <div className="shopcategory-indexSort">
         <p>
-          <span>Showing 1-{productCount}</span> out of {productCount} products
-          {hasMore && ` (more available)`}
+          <span>Showing 1-{displayCount}</span> products out of {totalProducts} products
+          {hasMore && ` (${totalProducts - displayCount} more available)`}
         </p>
-        <div className="shopcategory-sort">
+        <div className="shopcategory-sort" onClick={() => setDropdown(!showDropdown)}>
           Sort by <img src={dropdown_icon} alt="" />
+          {showDropdown && (
+            <div className="sort-dropdown">
+              <div className="sort-option" onClick={() => sortChange('default')}>
+                Default
+            </div>
+            <div className="sort-option" onClick={() => sortChange('price-low-high')}>
+              Price: low to High
+            </div>
+            <div className="sort-option" onClick={() => sortChange('price-high-low')}>
+              Price: High to Low
+            </div>
+            </div>
+          )}
         </div>
       </div>
 
       <div className="shopcategory-products">
         {products.map((item,i)=> (
-           <Item key={i} id={item._id || item.id} name={item.name} image={item.images && item.images.length > 0 ? item.images[0].url: '/placeholder.png'} price={item.price}/>
+           <Item key={i} id={item._id || item.id} name={item.name} image={item.images && item.images.length > 0 ? item.images[0].url: ''} price={item.price}/>
         ))}
       </div>
 
       {loading && (
-        <div className="loading-Message">Loading {props.category} procucts from DB</div>
+        <div className="loading-message">Loading {props.category} products from database</div>
       )}
 
       {hasMore && !loading && (
         <div className="shopcategory-loadmore" onClick={loadMoreProducts}>
-          Explore More {props.category} Products
+          Explore More {props.category}s
         </div>
       )}
 
@@ -113,7 +143,7 @@ export const ShopCategory = (props) => {
       )}
 
       {products.length === 0 && !loading && (
-        <div className="no-prodcuts-message">
+        <div className="no-products-message">
           <h3>No {props.category} products found</h3>
           <p>Make sure backend is running and has {props.category} products</p>
         </div>

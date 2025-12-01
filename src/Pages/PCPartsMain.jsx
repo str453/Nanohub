@@ -1,9 +1,9 @@
 /* 
 PC Parts Main Landing Page
-Shows top 5 most expensive items from each category
+Functional Requirement #5-7
 */
 
-import React, { useContext } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { ShopContext } from '../Context/ShopContext'
 import Item from '../Components/Item/Item'
@@ -11,6 +11,13 @@ import './CSS/PCPartsMain.css'
 
 export const PCPartsMain = () => {
   const { all_product, loading } = useContext(ShopContext);
+  const [dataLoaded, setDataLoaded] = useState(false);
+
+  useEffect(() => {
+    if(!loading){
+      setDataLoaded(true);
+    }
+  }, [loading, all_product.length]);
 
   // Debug: Log product data
   console.log('Total products loaded:', all_product.length);
@@ -34,7 +41,6 @@ export const PCPartsMain = () => {
     { name: 'Storage', displayName: 'Storage (HDD/SSD)', route: '/PC-Parts/Storage' }
   ];
 
-  // Get 5 random products for a category
   const getRandomProducts = (category, count = 7) => {
     const categoryProducts = all_product.filter(item => item.category === category);
     
@@ -49,7 +55,7 @@ export const PCPartsMain = () => {
   };
 
   // Show loading state
-  if (loading) {
+  if (loading || !dataLoaded) {
     return (
       <div className='pc-parts-main'>
         <div className="pc-parts-hero">
@@ -94,7 +100,7 @@ export const PCPartsMain = () => {
             <div className="category-header">
               <h2>{category.displayName}</h2>
               <Link to={category.route} className="view-all-btn">
-                View All ({randomProducts.length}) →
+                View All →
               </Link>
             </div>
             

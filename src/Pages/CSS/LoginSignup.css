@@ -4,15 +4,17 @@
     background: #e1eaff;
     padding-top: 100px;
     padding-bottom: 150px;
+    position: relative;
+    z-index: 1;
 }
 .loginsignup-container{
     width: 580px;
-    max-height: calc(100vh - 250px);
     background: white;
     margin: auto;
     padding: 30px 60px;
-    overflow-y: auto;
     margin-bottom: 50px;
+    position: relative;
+    z-index: 1;
 }
 .loginsignup-container.signup-mode{
     height: auto;
