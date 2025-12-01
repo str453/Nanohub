@@ -30,13 +30,29 @@ const CartItems = () => {
         {all_product.map((e)=>{
             if(cartItems[e.id]>0)
             {
-                const itemPrice = e.price || 0;
+                // Calculate price considering discount
+                let itemPrice = e.price || 0;
+                let originalPrice = e.price || 0;
+                if (e.discount?.isActive && e.discount?.percentage) {
+                    itemPrice = originalPrice * (1 - e.discount.percentage / 100);
+                }
                 const itemTotal = itemPrice * cartItems[e.id];
+                
                 return <div key={e.id}>
                             <div className="cartitems-format cartitems-format-main">
                                 <img src={e.image} alt="" className='carticon-product-icon'/>
                                 <p>{e.name}</p>
-                                <p>${itemPrice.toFixed(2)}</p>
+                                <div className="cart-price-section">
+                                    {e.discount?.isActive && e.discount?.percentage ? (
+                                        <>
+                                            <p className="cart-discounted-price">${itemPrice.toFixed(2)}</p>
+                                            <p className="cart-original-price">${originalPrice.toFixed(2)}</p>
+                                            <span className="cart-discount-badge">-{e.discount.percentage}%</span>
+                                        </>
+                                    ) : (
+                                        <p>${itemPrice.toFixed(2)}</p>
+                                    )}
+                                </div>
                                 <div className='cartitems-quantity-controls'>
                                     <button 
                                         className='cartitems-quantity-btn' 

@@ -75,7 +75,7 @@ export const RelatedProducts = (props) => {
         <hr />
         <div className="relatedproducts-item">
             {relatedProducts.map((item,i)=>{
-                return <Item key={i} id={item.id} name={item.name} image={item.image} price={item.price}/>
+                return <Item key={i} id={item.id} name={item.name} image={item.image} price={item.price} discount={item.discount}/>
             })}
         </div>
 

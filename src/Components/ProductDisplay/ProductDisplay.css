@@ -57,10 +57,42 @@
 }
 .productdisplay-right-prices{
     display: flex;
+    align-items: center;
     margin: 40px 0px;
     gap: 30px;
     font-size: 24px;
     font-weight: 700;
+}
+
+.price-with-discount {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    position: relative;
+}
+
+.productdisplay-right-price {
+    color: #3d3d3d;
+}
+
+.discount-price {
+    color: #ff4141;
+    font-size: 32px;
+}
+
+.original-price {
+    color: #999;
+    text-decoration: line-through;
+    font-size: 20px;
+}
+
+.discount-percentage {
+    background: #ff4141;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 600;
 }
 .productdisplay-right-price-old{
     color: #818181;

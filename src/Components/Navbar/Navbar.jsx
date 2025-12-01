@@ -10,6 +10,7 @@ import { useAuth } from '../../Context/AuthContext'
 export const Navbar = () => {
 
     const[menu,setMenu] = useState("shop");
+    const [searchTerm, setSearchTerm] = useState("");
     const {getTotalCartItems} = useContext(ShopContext);
     const { user, logout } = useAuth();
     const navigate = useNavigate();
@@ -33,6 +34,14 @@ export const Navbar = () => {
         logout();
         navigate('/');
     };
+
+    const handleSearch = (e) => {
+        e.preventDefault();
+        if (searchTerm.trim()) {
+            navigate(`/search?q=${encodeURIComponent(searchTerm)}`);
+            setSearchTerm("");
+        }
+    };
     
   return (
     <div className='navbar'>
@@ -46,6 +55,15 @@ export const Navbar = () => {
             <li onClick={()=>{setMenu("GPU")}}><Link style={{ textDecoration: 'none' }} to='/GPU'>GPUs</Link>{menu==="GPU"?<hr/>:<></>}</li>
             <li onClick={()=>{setMenu("Monitor")}}><Link style={{ textDecoration: 'none' }} to='/Monitor'>Monitor</Link>{menu==="Monitor"?<hr/>:<></>}</li>
         </ul>
+        <form className="nav-search-bar" onSubmit={handleSearch}>
+            <input 
+                type="text" 
+                placeholder="Search products..." 
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+            />
+            <button type="submit">🔍</button>
+        </form>
         <div className="nav-login-cart">
             {user ? (
                 <button onClick={handleLogout}>Logout</button>

@@ -117,7 +117,6 @@ export const ShopCategory = (props) => {
     <div className='shop-category'>
       {/* Custom Banner per Category */}
       <div className={`shopcategory-banner-container category-${props.category.toLowerCase()}`}>
-        {props.banner && <img className='shopcategory-banner' src={props.banner} alt={props.category} />}
         <div className="banner-text-overlay">
           <h1>{getCategoryDisplayName()}</h1>
           <p>Build your dream PC with premium components</p>
@@ -152,7 +151,7 @@ export const ShopCategory = (props) => {
 
       <div className="shopcategory-products">
         {products.map((item,i)=> (
-           <Item key={i} id={item._id || item.id} name={item.name} image={item.images && item.images.length > 0 ? item.images[0].url: ''} price={item.price}/>
+           <Item key={i} id={item._id || item.id} name={item.name} image={item.images && item.images.length > 0 ? item.images[0].url: ''} price={item.price} discount={item.discount}/>
         ))}
       </div>
 

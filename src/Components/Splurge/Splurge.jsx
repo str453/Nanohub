@@ -112,6 +112,7 @@ export const Splurge = () => {
             image={item.image} 
             price={item.price} 
             category={item.category}
+            discount={item.discount}
           />
         ))}
       </div>

@@ -8,6 +8,12 @@ const ProductDisplay = (props) => {
       const {product} = props;
       const {addToCart} = useContext(ShopContext);
       
+      // Debug: log the product data
+      useEffect(() => {
+        console.log('ProductDisplay - product data:', product);
+        console.log('ProductDisplay - discount field:', product?.discount);
+      }, [product]);
+      
       // Extract all image URLs - handles multiple formats
       const productImages = useMemo(() => {
         // Case 1: images is an array of objects with url property
@@ -38,6 +44,24 @@ const ProductDisplay = (props) => {
           setMainImage(productImages[0]);
         }
       }, [product.id, productImages]);
+
+      // Calculate discount price if discount is active
+      const getPrice = () => {
+        console.log('getPrice called - discount:', product.discount);
+        if (product.discount?.isActive && product.discount?.percentage) {
+          const discountedPrice = (product.price * (1 - product.discount.percentage / 100)).toFixed(2);
+          console.log('Discount active - returning discounted price:', discountedPrice);
+          return discountedPrice;
+        }
+        console.log('No discount - returning regular price:', product.price?.toFixed(2));
+        return product.price?.toFixed(2);
+      };
+
+      const getOriginalPrice = () => {
+        return product.price?.toFixed(2);
+      };
+
+      const hasDiscount = product.discount?.isActive && product.discount?.percentage;
 
     return (
         <div className='productdisplay'>
@@ -75,7 +99,15 @@ const ProductDisplay = (props) => {
                   <p>(122)</p>
                 </div>
                 <div className="productdisplay-right-prices">
-                  <div className="productdisplay-right-price">${product.price?.toFixed(2)}</div>
+                  {hasDiscount ? (
+                    <div className="price-with-discount">
+                      <div className="productdisplay-right-price discount-price">${getPrice()}</div>
+                      <div className="productdisplay-right-price original-price">${getOriginalPrice()}</div>
+                      <span className="discount-percentage">-{product.discount.percentage}%</span>
+                    </div>
+                  ) : (
+                    <div className="productdisplay-right-price">${product.price?.toFixed(2)}</div>
+                  )}
                 </div>
                 <div className="productdisplay-right-descrption">
                   {product.description || 'No description available.'}
