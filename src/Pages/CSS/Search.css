@@ -37,7 +37,11 @@
 }
 
 .search-products {
-  padding: 40px 80px;
+  padding: 20px 5%;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1 fr));
+  gap: 40px;
+  width: 100%;
 }
 
 .search-loading,
@@ -47,6 +51,7 @@
   background: white;
   border-radius: 12px;
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+  margin: 20px 5%
 }
 
 .search-loading {
@@ -67,16 +72,10 @@
 
 .search-empty p {
   font-size: 16px;
-  color: #888;
+  color: black;
   margin: 0;
 }
 
-.search-products-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: 40px;
-  width: 100%;
-}
 
 /* Responsive Design */
 @media (max-width: 1280px) {
