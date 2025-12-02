@@ -1,5 +1,5 @@
 .search-results {
-  background: #f8f9fa;
+  background: white;
   min-height: 100vh;
   padding-bottom: 60px;
 }
@@ -41,7 +41,6 @@
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1 fr));
   gap: 40px;
-  width: 100%;
 }
 
 .search-loading,
@@ -56,7 +55,7 @@
 
 .search-loading {
   font-size: 18px;
-  color: #666;
+  color: white;
   min-height: 200px;
   display: flex;
   align-items: center;
